@@ -21,6 +21,11 @@ gsettings_key_exists() {
 setup_docker_non_root_access() {
     local target_user="${SUDO_USER:-$USER}"
 
+    if ! printf '%s\n' "${SYSTEM_PACKAGES[@]-}" | grep -q '^docker'; then
+        info "Skipping Docker configuration: Docker is not selected"
+        return 0
+    fi
+
     info "Configuring Docker for non-root access"
 
     run_cmd sudo groupadd -f docker
