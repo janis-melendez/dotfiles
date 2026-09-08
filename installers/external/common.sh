@@ -4,8 +4,29 @@
 : "${DOTFILES_DIR:?DOTFILES_DIR must be set before sourcing installers/external/common.sh}"
 
 source "$DOTFILES_DIR/lib/install-or-update-repo.sh"
+source "$DOTFILES_DIR/installers/external/versions.sh"
 
 # --- Helpers ---
+verify_sha256() {
+    local file="$1"
+    local expected="$2"
+    local actual
+
+    if command -v sha256sum >/dev/null 2>&1; then
+        actual="$(sha256sum "$file" | awk '{print $1}')"
+    elif command -v shasum >/dev/null 2>&1; then
+        actual="$(shasum -a 256 "$file" | awk '{print $1}')"
+    else
+        error "A SHA-256 tool is required to verify $file"
+        return 1
+    fi
+
+    if [[ "$actual" != "$expected" ]]; then
+        error "Checksum verification failed: $file"
+        return 1
+    fi
+}
+
 font_is_installed() {
     local font_family="$1"
 
@@ -146,7 +167,7 @@ install_external_autotiling() {
 }
 
 install_external_bibata_cursor_theme() (
-    local version="v2.0.7"
+    local version="$EXTERNAL_VERSION_BIBATA_CURSOR"
     local theme_name="Bibata-Modern-Ice"
     local archive_name="$theme_name.tar.xz"
     local download_url="https://github.com/ful1e5/Bibata_Cursor/releases/download/$version/$archive_name"
@@ -178,6 +199,7 @@ install_external_bibata_cursor_theme() (
 )
 
 install_external_bun() {
+    local version="$EXTERNAL_VERSION_BUN"
     local install_url="https://bun.sh/install"
 
     if command -v bun >/dev/null 2>&1; then
@@ -188,14 +210,15 @@ install_external_bun() {
     info "Installing Bun"
 
     if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | bash\n' "$install_url"
+        printf '+ curl -fsSL %q | bash -s -- %q\n' "$install_url" "$version"
         return 0
     fi
 
-    curl -fsSL "$install_url" | bash
+    curl -fsSL "$install_url" | bash -s -- "$version"
 }
 
 install_external_claude_code() {
+    local version="$EXTERNAL_VERSION_CLAUDE_CODE"
     if command -v claude &>/dev/null; then
         info "Claude Code is already installed"
         return 0
@@ -204,14 +227,15 @@ install_external_claude_code() {
     info "Installing Claude Code"
 
     if [[ "${DRY_RUN:-false}" = true ]]; then
-        printf '+ curl -fsSL https://claude.ai/install.sh | bash\n'
+        printf '+ curl -fsSL https://claude.ai/install.sh | bash -s -- %q\n' "$version"
         return 0
     fi
 
-    curl -fsSL https://claude.ai/install.sh | bash
+    curl -fsSL https://claude.ai/install.sh | bash -s -- "$version"
 }
 
 install_external_codex() {
+    local version="$EXTERNAL_VERSION_CODEX"
     if command -v codex &>/dev/null; then
         info "Codex is already installed"
         return 0
@@ -220,11 +244,11 @@ install_external_codex() {
     info "Installing Codex"
 
     if [[ "${DRY_RUN:-false}" = true ]]; then
-        printf '+ curl -fsSL https://chatgpt.com/codex/install.sh | sh\n'
+        printf '+ curl -fsSL https://chatgpt.com/codex/install.sh | sh -s -- --release %q\n' "$version"
         return 0
     fi
 
-    curl -fsSL https://chatgpt.com/codex/install.sh | sh
+    curl -fsSL https://chatgpt.com/codex/install.sh | sh -s -- --release "$version"
 }
 
 install_external_dejadup() {
@@ -247,7 +271,7 @@ install_external_dejavu_font() {
 }
 
 install_external_fira_code_font() {
-    local version="v3.5.0"
+    local version="$EXTERNAL_VERSION_FIRA_CODE"
     local file_name="FiraCode.zip"
     local install_dir="FiraCodeNerdFont"
     local font_family="FiraCode Nerd Font"
@@ -263,8 +287,8 @@ install_external_fira_code_font() {
 install_external_graphite_theme() (
     local gtk_repo_url="https://github.com/vinceliuice/Graphite-gtk-theme.git"
     local kde_repo_url="https://github.com/vinceliuice/Graphite-kde-theme.git"
-    local gtk_version="2026-08-23"
-    local kde_version="2026-08-22"
+    local gtk_version="$EXTERNAL_VERSION_GRAPHITE_GTK"
+    local kde_version="$EXTERNAL_VERSION_GRAPHITE_KDE"
 
     local gtk_theme_dir="$HOME/.themes/Graphite-Dark-nord"
     local kvantum_theme_dir="$HOME/.config/Kvantum/GraphiteNord"
@@ -320,7 +344,7 @@ install_external_graphite_theme() (
 )
 
 install_external_hack_font() {
-    local version="v3.5.0"
+    local version="$EXTERNAL_VERSION_HACK_FONT"
     local file_name="Hack.zip"
     local install_dir="HackNerdFont"
     local font_family="Hack Nerd Font Mono"
@@ -333,27 +357,45 @@ install_external_hack_font() {
         "$download_url"
 }
 
-install_external_herdr() {
-    local install_url="https://herdr.dev/install.sh"
+install_external_herdr() (
+    local version="$EXTERNAL_VERSION_HERDR"
+    local target
+    local download_url
+    local checksum
+    local temp_dir
 
     if command -v herdr >/dev/null 2>&1; then
         info "Herdr is already installed"
         return 0
     fi
 
-    info "Installing Herdr"
+    case "$(uname -s)-$(uname -m)" in
+        Linux-x86_64) target="linux-x86_64"; checksum="$EXTERNAL_SHA256_HERDR_LINUX_X86_64" ;;
+        Linux-aarch64) target="linux-aarch64"; checksum="$EXTERNAL_SHA256_HERDR_LINUX_AARCH64" ;;
+        Darwin-x86_64) target="macos-x86_64"; checksum="$EXTERNAL_SHA256_HERDR_MACOS_X86_64" ;;
+        Darwin-arm64) target="macos-aarch64"; checksum="$EXTERNAL_SHA256_HERDR_MACOS_AARCH64" ;;
+        *) error "Unsupported platform for Herdr"; return 1 ;;
+    esac
+
+    download_url="https://github.com/herdrdev/herdr/releases/download/v$version/herdr-$target"
+    info "Installing Herdr $version"
 
     if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | sh' "$install_url"
+        printf '+ curl -fL --output %q %q\n' "<temporary Herdr binary>" "$download_url"
+        printf '+ verify_sha256 %q %q\n' "<temporary Herdr binary>" "$checksum"
         return 0
     fi
 
-    printf '+ curl -fsSL %q | sh' "$install_url"
-    curl -fsSL "$install_url" | sh
-}
+    temp_dir="$(mktemp -d)" || return 1
+    trap 'rm -rf "$temp_dir"' EXIT
+    run_cmd mkdir -p "$HOME/.local/bin" || return 1
+    run_cmd curl -fL --output "$temp_dir/herdr" "$download_url" || return 1
+    verify_sha256 "$temp_dir/herdr" "$checksum" || return 1
+    run_cmd install -m755 "$temp_dir/herdr" "$HOME/.local/bin/herdr"
+)
 
 install_external_julia_mono_font() {
-    local version="v0.63.2"
+    local version="$EXTERNAL_VERSION_JULIA_MONO"
     local file_name="JuliaMono.zip"
     local install_dir="JuliaMono"
     local font_family="JuliaMono"
@@ -368,7 +410,7 @@ install_external_julia_mono_font() {
 
 install_external_nordic_theme() (
     local repo_url="https://github.com/EliverLara/Nordic.git"
-    local version="2.2.0"
+    local version="$EXTERNAL_VERSION_NORDIC"
 
     local gtk_theme_dir="$HOME/.themes/Nordic"
     local kvantum_theme_dir="$HOME/.config/Kvantum/Nordic"
@@ -427,6 +469,7 @@ install_external_nordic_theme() (
 
 
 install_external_oh_my_posh() {
+    local version="$EXTERNAL_VERSION_OH_MY_POSH"
     local install_url="https://ohmyposh.dev/install.sh"
 
     if is_command_available oh-my-posh; then
@@ -440,12 +483,12 @@ install_external_oh_my_posh() {
     # Do not wrap this in run_cmd.
     # Dry run must be checked before the pipeline so curl does not run
     if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | bash -s\n' "$install_url"
+        printf '+ curl -fsSL %q | bash -s -- -v %q\n' "$install_url" "$version"
         return 0
     fi
 
-    printf '+ curl -fsSL %q | bash -s\n' "$install_url"
-    curl -fsSL "$install_url" | bash -s
+    printf '+ curl -fsSL %q | bash -s -- -v %q\n' "$install_url" "$version"
+    curl -fsSL "$install_url" | bash -s -- -v "$version"
 }
 
 install_external_yazi() {
@@ -460,7 +503,7 @@ install_external_yazi() {
     fi
 
     info "Installing Yazi"
-    run_cmd cargo install --force yazi-build
+    run_cmd cargo install --force yazi-build --version "$EXTERNAL_VERSION_YAZI"
 }
 
 # TODO: create a install_cargo function
@@ -476,7 +519,7 @@ install_external_workmux() {
     fi
 
     info "Installing Workmux"
-    run_cmd cargo install workmux
+    run_cmd cargo install workmux --version "$EXTERNAL_VERSION_WORKMUX"
 }
 
 install_external_zen_browser() {

@@ -6,6 +6,7 @@
 # --- Sources ---
 source "$DOTFILES_DIR/lib/log.sh"
 source "$DOTFILES_DIR/lib/run-command.sh"
+source "$DOTFILES_DIR/installers/external/versions.sh"
 
 # --- Helper functions ---
 is_command_available(){
@@ -14,15 +15,15 @@ is_command_available(){
 
 # --- External tool installers ---
 install_external_lazydocker() {
-    local version="v0.24.0"
+    local version="$EXTERNAL_VERSION_LAZYDOCKER"
 
     info "Installing lazydocker $version"
     run_cmd go install "github.com/jesseduffield/lazydocker@$version"
 }
 
 install_external_lazygit() {
-    info "Installing or updating lazygit"
-    run_cmd go install github.com/jesseduffield/lazygit@latest
+    info "Installing lazygit $EXTERNAL_VERSION_LAZYGIT"
+    run_cmd go install "github.com/jesseduffield/lazygit@$EXTERNAL_VERSION_LAZYGIT"
 }
 
 install_external_proton_mail() (
@@ -74,6 +75,6 @@ install_external_resvg() {
         return 1
     fi
 
-    info "Installing resvg"
-    run_cmd cargo install resvg --locked
+    info "Installing resvg $EXTERNAL_VERSION_RESVG"
+    run_cmd cargo install resvg --version "$EXTERNAL_VERSION_RESVG" --locked
 }

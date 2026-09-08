@@ -6,6 +6,7 @@
 # --- Sources ---
 source "$DOTFILES_DIR/lib/log.sh"
 source "$DOTFILES_DIR/lib/run-command.sh"
+source "$DOTFILES_DIR/installers/external/versions.sh"
 
 # --- Helper functions ---
 is_command_available(){
