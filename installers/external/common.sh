@@ -4,6 +4,8 @@
 : "${DOTFILES_DIR:?DOTFILES_DIR must be set before sourcing installers/external/common.sh}"
 
 source "$DOTFILES_DIR/lib/install-or-update-repo.sh"
+source "$DOTFILES_DIR/lib/install-cargo-package.sh"
+source "$DOTFILES_DIR/lib/install-flathub-package.sh"
 source "$DOTFILES_DIR/installers/external/versions.sh"
 
 # --- Helpers ---
@@ -252,8 +254,7 @@ install_external_codex() {
 }
 
 install_external_dejadup() {
-    info "Installing DejaDup"
-    run_cmd flatpak install --noninteractive --assumeyes flathub org.gnome.DejaDup
+    install_flathub_package org.gnome.DejaDup
 }
 
 
@@ -502,11 +503,9 @@ install_external_yazi() {
         return
     fi
 
-    info "Installing Yazi"
-    run_cmd cargo install --force yazi-build --version "$EXTERNAL_VERSION_YAZI" --locked
+    install_cargo_package yazi-build "$EXTERNAL_VERSION_YAZI" --force
 }
 
-# TODO: create a install_cargo function
 install_external_workmux() {
     if ! command -v cargo; then
         warn "Cargo is required to install workmux"
@@ -518,11 +517,9 @@ install_external_workmux() {
         return 0
     fi
 
-    info "Installing Workmux"
-    run_cmd cargo install workmux --version "$EXTERNAL_VERSION_WORKMUX" --locked
+    install_cargo_package workmux "$EXTERNAL_VERSION_WORKMUX"
 }
 
 install_external_zen_browser() {
-    info "Installing Zen Browser"
-    run_cmd flatpak install --noninteractive --assumeyes flathub app.zen_browser.zen
+    install_flathub_package app.zen_browser.zen
 }

@@ -5,6 +5,8 @@
 
 # --- Sources ---
 source "$DOTFILES_DIR/lib/log.sh"
+source "$DOTFILES_DIR/lib/install-cargo-package.sh"
+source "$DOTFILES_DIR/lib/install-go-package.sh"
 source "$DOTFILES_DIR/lib/run-command.sh"
 source "$DOTFILES_DIR/installers/external/versions.sh"
 
@@ -40,13 +42,11 @@ install_external_fzf() {
 install_external_lazydocker() {
     local version="$EXTERNAL_VERSION_LAZYDOCKER"
 
-    info "Installing lazydocker $version"
-    run_cmd go install "github.com/jesseduffield/lazydocker@$version"
+    install_go_package github.com/jesseduffield/lazydocker "$version"
 }
 
 install_external_lazygit() {
-    info "Installing lazygit $EXTERNAL_VERSION_LAZYGIT"
-    run_cmd go install "github.com/jesseduffield/lazygit@$EXTERNAL_VERSION_LAZYGIT"
+    install_go_package github.com/jesseduffield/lazygit "$EXTERNAL_VERSION_LAZYGIT"
 }
 
 install_external_neovim() {
@@ -74,13 +74,7 @@ install_external_resvg() {
         return 0
     fi
 
-    if ! is_command_available cargo; then
-        info "Cargo is required to install resvg"
-        return 0
-    fi
-
-    info "Installing resvg $EXTERNAL_VERSION_RESVG"
-    run_cmd cargo install resvg --version "$EXTERNAL_VERSION_RESVG" --locked
+    install_cargo_package resvg "$EXTERNAL_VERSION_RESVG"
 }
 
 install_external_proton_mail() (
