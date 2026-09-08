@@ -56,6 +56,7 @@ DESKTOP_PACKAGES=(
     # General desktop
     1password
     flatpak
+    gdm3
     ghostty
     google-chrome-stable
     helium-bin
