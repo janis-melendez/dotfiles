@@ -47,11 +47,9 @@ install_external_lazygit() {
 }
 
 install_external_neovim() {
-    # TODO: Pin Neovim to a specific version to avoid unexpected config breakage.
-    # local pinned_version="0.12.2"
-
+    local version="v0.12.2"
     local tarball_name="nvim-linux-x86_64.tar.gz"
-    local tarball_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+    local tarball_url="https://github.com/neovim/neovim/releases/download/$version/$tarball_name"
     local tarball_dir="/opt/nvim-linux-x86_64"
 
     if is_command_available nvim; then
@@ -59,7 +57,7 @@ install_external_neovim() {
         return 0
     fi
 
-    info "Installing nvim"
+    info "Installing nvim $version"
 
     run_cmd curl -fSLO "$tarball_url"
     run_cmd sudo rm -rf "$tarball_dir"
