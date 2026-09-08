@@ -125,8 +125,6 @@ build_external_tools_for_profile "$PROFILE" || exit 1
 # --- Install flow ---
 print_script_info
 
-# TODO: revisit runners
-#       Some runners may have extra abstraction from trying to keep them similar
 run_system_installs "$OS" "${SYSTEM_PACKAGES[@]}"
 
 if [[ "$OS" == "macos" ]]; then
