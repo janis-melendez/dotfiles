@@ -14,8 +14,10 @@ is_command_available(){
 
 # --- External tool installers ---
 install_external_lazydocker() {
-    info "Installing or Updating lazydocker"
-    run_cmd go install github.com/jesseduffield/lazydocker@latest
+    local version="v0.24.0"
+
+    info "Installing lazydocker $version"
+    run_cmd go install "github.com/jesseduffield/lazydocker@$version"
 }
 
 install_external_lazygit() {

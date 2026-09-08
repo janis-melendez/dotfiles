@@ -35,11 +35,10 @@ CORE_PACKAGES=(
 #   and project workflow tools
 HEADLESS_PACKAGES=(
     cmake
-    containerd.io
-    docker-buildx-plugin
-    docker-ce
-    docker-ce-cli
-    docker-compose-plugin
+    docker-buildx
+    docker-cli
+    docker-compose
+    moby-engine
     gcc
     gcc-c++
     golang
@@ -187,8 +186,6 @@ EXTERNAL_HEADLESS=(
 EXTERNAL_DESKTOP=(
     autotiling
     dejadup
-    fira_code_font
-    julia_mono_font
     proton_mail
     proton_pass
     zen_browser

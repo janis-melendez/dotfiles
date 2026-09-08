@@ -35,76 +35,21 @@ install_external_fzf() {
 }
 
 install_external_lazydocker() {
-    local install_url="https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh"
+    local version="v0.24.0"
 
-    info "Installing or updating lazydocker"
-
-    # NOTE:
-    # Do not use run_cmd here
-    # Dry-run must be checked before the pipeline so curl does not run
-    if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | bash\n' "$install_url"
-        return 0
-    fi
-
-    curl -fsSL "$install_url" | bash
+    info "Installing lazydocker $version"
+    run_cmd go install "github.com/jesseduffield/lazydocker@$version"
 }
 
 install_external_lazygit() {
-    local api_url="https://api.github.com/repos/jesseduffield/lazygit/releases/latest"
-    local install_dir="/usr/local/bin"
-
-    local version
-    local arch
-    local tarball_url
-
-    if is_command_available lazygit; then
-        info "lazygit already installed"
-        return 0
-    fi
-
-    info "Installing lazygit"
-
-    arch=$(
-        uname -m | sed -e 's/aarch64/arm64/'
-    )
-
-    # NOTE:
-    # Do not use run_cmd here
-    # Dry-run is checked before resolving the latest release so no network lookup runs.
-    if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q\n' "$api_url"
-        printf '+ curl -fsSL -o lazygit.tar.gz %q\n' \
-            "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_<VERSION>_Linux_${arch}.tar.gz"
-        printf '+ tar xf lazygit.tar.gz lazygit\n'
-        printf '+ sudo install lazygit -D -t %q\n' "$install_dir"
-        return 0
-    fi
-
-
-    version="$(
-        curl -fsSL "$api_url" |
-            grep -Po '"tag_name": *"v\K[^"]*'
-    )"
-
-    if [[ -z "$version" ]]; then
-        echo "Failed to resolve lazygit version." >&2
-        return 1
-    fi
-
-    tarball_url="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_${arch}.tar.gz"
-
-    run_cmd curl -fsSL lazygit.tar.gz "$tarball_url"
-    run_cmd tar xf lazygit.tar.gz lazygit
-    run_cmd sudo install lazygit -D -t /usr/local/bin/
+    info "Installing or updating lazygit"
+    run_cmd go install github.com/jesseduffield/lazygit@latest
 }
 
 install_external_neovim() {
-    # TODO: Pin Neovim to a specific version to avoid unexpected config breakage.
-    # local pinned_version="0.12.2"
-
+    local version="v0.12.2"
     local tarball_name="nvim-linux-x86_64.tar.gz"
-    local tarball_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+    local tarball_url="https://github.com/neovim/neovim/releases/download/$version/$tarball_name"
     local tarball_dir="/opt/nvim-linux-x86_64"
 
     if is_command_available nvim; then
@@ -112,7 +57,7 @@ install_external_neovim() {
         return 0
     fi
 
-    info "Installing nvim"
+    info "Installing nvim $version"
 
     run_cmd curl -fSLO "$tarball_url"
     run_cmd sudo rm -rf "$tarball_dir"
@@ -193,179 +138,3 @@ install_external_zoxide() {
 
     curl -fsSL "$install_url" | sh
 }
-
-install_external_dunst() (
-    local version="1.13.2"
-    local archive_name="dunst-${version}.tar.gz"
-    local download_url="https://github.com/dunst-project/dunst/archive/refs/tags/v${version}.tar.gz"
-    local install_path="$HOME/.local/bin/dunst"
-    local control_path="$HOME/.local/bin/dunstctl"
-    local tmp_dir
-    local installed_version
-    local missing_dependencies=()
-    local dependency
-    local dependencies=(
-        libdbus-1-dev
-        libpango1.0-dev
-        libwayland-dev
-        libxinerama-dev
-        libxrandr-dev
-        libxss-dev
-        libxdg-basedir-dev
-        meson
-        ninja-build
-        pkg-config
-        wayland-protocols
-    )
-
-    if [[ -x "$install_path" ]]; then
-        installed_version="$("$install_path" --version 2>/dev/null | sed -n 's/.* \([0-9][0-9.]*\).*/\1/p' | head -n 1)"
-        if [[ "$installed_version" == "$version" && -x "$control_path" ]]; then
-            info "Dunst $version is already installed"
-            return 0
-        fi
-    fi
-
-    info "Installing Dunst $version from upstream"
-
-    if [[ "${DRY_RUN:-false}" == true ]]; then
-        run_cmd sudo apt-get install -y "${dependencies[@]}" || return 1
-    else
-        for dependency in "${dependencies[@]}"; do
-            if [[ "$(dpkg-query -W -f='${db:Status-Status}' "$dependency" 2>/dev/null)" != "installed" ]]; then
-                missing_dependencies+=("$dependency")
-            fi
-        done
-
-        if (( ${#missing_dependencies[@]} > 0 )); then
-            run_cmd sudo apt-get install -y "${missing_dependencies[@]}" || return 1
-        else
-            info "Dunst build dependencies are already installed"
-        fi
-    fi
-
-    tmp_dir="$(mktemp -d)" || return 1
-    trap 'rm -rf "$tmp_dir"' EXIT
-
-    run_cmd curl -fL --output "$tmp_dir/$archive_name" "$download_url" || return 1
-    run_cmd tar -xzf "$tmp_dir/$archive_name" -C "$tmp_dir" || return 1
-    run_cmd meson setup --buildtype=release "$tmp_dir/build" "$tmp_dir/dunst-$version" || return 1
-    run_cmd meson compile -C "$tmp_dir/build" || return 1
-    run_cmd install -Dm755 "$tmp_dir/build/src/dunst" "$install_path" || return 1
-    run_cmd install -Dm755 "$tmp_dir/dunst-$version/dunstctl" "$HOME/.local/bin/dunstctl" || return 1
-
-    if [[ "${DRY_RUN:-false}" == true ]]; then
-        return 0
-    fi
-
-    installed_version="$("$install_path" --version 2>/dev/null | sed -n 's/.* \([0-9][0-9.]*\).*/\1/p' | head -n 1)"
-    if [[ "$installed_version" != "$version" ]]; then
-        error "Failed to install Dunst $version"
-        return 1
-    fi
-
-    info "Dunst $version installed successfully"
-)
-
-install_external_niri() (
-    if command -v niri &>/dev/null; then
-        info "Niri is already installed"
-        return 0
-    fi
-
-    if [[ "${DRY_RUN:-false}" != true ]]; then
-        if ! command -v rustc &>/dev/null || ! command -v cargo &>/dev/null; then
-            error "Rust and Cargo are required to build Niri"
-            return 1
-        fi
-    fi
-
-    local niri_version="v26.04"
-    local repo_url="https://github.com/niri-wm/niri.git"
-
-    local dependencies=(
-        clang
-        gcc
-        git
-        libdbus-1-dev
-        libdisplay-info-dev
-        libegl1-mesa-dev
-        libgbm-dev
-        libinput-dev
-        libpango1.0-dev
-        libpipewire-0.3-dev
-        libseat-dev
-        libsystemd-dev
-        libudev-dev
-        libwayland-dev
-        libwayland-server0
-        libxkbcommon-dev
-        pkg-config
-    )
-
-    info "Installing Niri dependencies"
-
-    run_cmd sudo apt-get install -y "${dependencies[@]}" || return 1
-
-    info "Building Niri $niri_version"
-
-    local tmp_dir
-    tmp_dir="$(mktemp -d)"
-    trap 'rm -rf "$tmp_dir"' EXIT
-
-    run_cmd git clone \
-        --branch "$niri_version" \
-        --depth 1 \
-        "$repo_url" \
-        "$tmp_dir/niri" ||
-        return 1
-
-    run_cmd cargo build \
-        --release \
-        --locked \
-        --manifest-path "$tmp_dir/niri/Cargo.toml" ||
-        return 1
-
-    info "Installing Niri"
-
-    run_cmd sudo install -Dm755 \
-        "$tmp_dir/niri/target/release/niri" \
-        /usr/local/bin/niri ||
-        return 1
-
-    run_cmd sudo install -Dm755 \
-        "$tmp_dir/niri/resources/niri-session" \
-        /usr/local/bin/niri-session ||
-        return 1
-
-    run_cmd sudo install -Dm644 \
-        "$tmp_dir/niri/resources/niri.desktop" \
-        /usr/share/wayland-sessions/niri.desktop ||
-        return 1
-
-    run_cmd sudo install -Dm644 \
-        "$tmp_dir/niri/resources/niri-portals.conf" \
-        /usr/local/share/xdg-desktop-portal/niri-portals.conf ||
-        return 1
-
-    run_cmd sudo install -Dm644 \
-        "$tmp_dir/niri/resources/niri.service" \
-        /etc/systemd/user/niri.service ||
-        return 1
-
-    run_cmd sudo install -Dm644 \
-        "$tmp_dir/niri/resources/niri-shutdown.target" \
-        /etc/systemd/user/niri-shutdown.target ||
-        return 1
-
-    if [[ "${DRY_RUN:-false}" = true ]]; then
-        return 0
-    fi
-
-    if /usr/local/bin/niri --version &>/dev/null; then
-        info "Niri installed successfully"
-    else
-        error "Failed to install Niri"
-        return 1
-    fi
-)

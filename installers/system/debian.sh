@@ -44,6 +44,18 @@ is_in_packages_list() {
 }
 
 # --- Repository Setup ---
+setup_gdm_display_manager() {
+    if ! is_in_packages_list gdm3 "$@"; then
+        return 0
+    fi
+
+    info "Selecting GDM as the default display manager"
+
+    run_cmd sudo debconf-set-selections <<'EOF'
+gdm3 shared/default-x-display-manager select gdm3
+EOF
+}
+
 setup_1password_repository() {
     local pkg="1password"
     local repo="1password"
@@ -124,36 +136,6 @@ EOF
     run_cmd sudo apt update
 }
 
-setup_docker_repository() {
-    local pkg="docker-ce"
-    local repo="docker"
-
-    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
-        return 0
-    fi
-
-    info "Configuring Docker repository"
-
-    # Add Docker's official GPG key:
-    run_cmd sudo apt update
-    run_cmd sudo apt install ca-certificates curl
-    run_cmd sudo install -m 0755 -d /etc/apt/keyrings
-    run_cmd sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    run_cmd sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-    # Add the repository to Apt sources:
-    run_cmd sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
-    Types: deb
-    URIs: https://download.docker.com/linux/ubuntu
-    Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-    Components: stable
-    Architectures: $(dpkg --print-architecture)
-    Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-
-    run_cmd sudo apt update
-}
-
 setup_helium_browser_repository() {
     local pkg="helium-bin"
     local repo="helium"
@@ -167,49 +149,38 @@ setup_helium_browser_repository() {
     local signing_key="https://raw.githubusercontent.com/imputnet/helium-linux/main/pubkey.asc"
 
     if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | sudo gpg --dearmor -o /usr/share/keyrings' "$signing_key"
-        printf '+ echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/helium.gpg] https://pkg.helium.computer/deb stable main" | sudo tee /etc/apt/sources.list.d/helium.list'
+        printf '+ curl -fsSL %q | sudo gpg --dearmor -o /usr/share/keyrings/helium.gpg\n' "$signing_key"
+        printf '%s\n' '+ echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/helium.gpg] https://pkg.helium.computer/deb stable main" | sudo tee /etc/apt/sources.list.d/helium.list'
+        return 0
     fi
 
     curl -fsSL "$signing_key" | sudo gpg --dearmor -o /usr/share/keyrings/helium.gpg
     echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/helium.gpg] https://pkg.helium.computer/deb stable main" | sudo tee /etc/apt/sources.list.d/helium.list
 }
 
-setup_papirus_repository() {
-    local pkgs=(
-        "qt6-style-kvantum"
-        "arc-kde"
-    )
+setup_ghostty_repository() {
+    local pkg="ghostty"
+    local repo="mkasberg/ghostty-ubuntu"
 
-    local repo="papirus/papirus"
-    local ppa="ppa:papirus/papirus"
-
-    local configure_repo=false
-
-    for pkg in "${pkgs[@]}"; do
-        if is_in_packages_list "$pkg" "$@" ; then
-            configure_repo=true
-            break
-        fi
-    done
-
-    if ! "$configure_repo" || is_repository_configured "$repo"; then
+    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
         return 0
     fi
 
-    info "Configuring Papirus repository"
+    info "Configuring Ghostty repository"
 
-    run_cmd sudo add-apt-repository -y "$ppa" || return 1
+    run_cmd sudo apt-get update
+    run_cmd sudo apt-get install -y software-properties-common
+    run_cmd sudo add-apt-repository -y "ppa:$repo"
 }
 
 setup_package_repositories() {
     info "Configuring package repositories"
 
+    setup_gdm_display_manager "$@"
     setup_1password_repository "$@"
     setup_chrome_repository "$@"
-    setup_docker_repository "$@"
     setup_helium_browser_repository "$@"
-    setup_papirus_repository "$@"
+    setup_ghostty_repository "$@"
 }
 
 # --- Public entrypoint ---

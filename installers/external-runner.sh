@@ -53,7 +53,10 @@ install_external_tool () {
 
 # --- Prepare external dependencies ---
 prepare_flathub() {
-    # TODO: add profile check. flathub should only install on the desktop profile.
+    if [[ "${PROFILE:-desktop}" != "desktop" ]]; then
+        return 0
+    fi
+
     if [[ "$(uname -s)" != "Linux" ]]; then
         return 0
     fi

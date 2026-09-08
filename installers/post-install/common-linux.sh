@@ -21,6 +21,11 @@ gsettings_key_exists() {
 setup_docker_non_root_access() {
     local target_user="${SUDO_USER:-$USER}"
 
+    if ! printf '%s\n' "${SYSTEM_PACKAGES[@]-}" | grep -Eq 'docker|moby-engine'; then
+        info "Skipping Docker configuration: Docker is not selected"
+        return 0
+    fi
+
     info "Configuring Docker for non-root access"
 
     run_cmd sudo groupadd -f docker
@@ -45,6 +50,7 @@ configure_gnome_theme() {
     run_cmd gsettings set "$schema" icon-theme 'Papirus-Dark'
     run_cmd gsettings set "$schema" cursor-theme 'Bibata-Modern-Ice'
     run_cmd gsettings set "$schema" cursor-size 28
+    run_cmd gsettings set "$schema" text-scaling-factor 1.0
     run_cmd gsettings set "$schema" font-name 'DejaVu Sans 12'
     run_cmd gsettings set "$schema" monospace-font-name 'FiraCode Nerd Font 13'
 }

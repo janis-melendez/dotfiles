@@ -13,7 +13,10 @@ print_next_steps() {
     section "Next steps"
 
     cat <<EOF
-    - Restart your terminal
+    - Restart your terminal to start a new Zsh session
+    - Install Zoom
+    - Sign in to 1Password, Proton VPN, and Zoom
+    - Import your SSH and GPG keys
 EOF
 }
 
