@@ -50,6 +50,7 @@ configure_gnome_theme() {
     run_cmd gsettings set "$schema" icon-theme 'Papirus-Dark'
     run_cmd gsettings set "$schema" cursor-theme 'Bibata-Modern-Ice'
     run_cmd gsettings set "$schema" cursor-size 28
+    run_cmd gsettings set "$schema" text-scaling-factor 1.0
     run_cmd gsettings set "$schema" font-name 'DejaVu Sans 12'
     run_cmd gsettings set "$schema" monospace-font-name 'FiraCode Nerd Font 13'
 }
