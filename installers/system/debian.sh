@@ -44,6 +44,18 @@ is_in_packages_list() {
 }
 
 # --- Repository Setup ---
+setup_gdm_display_manager() {
+    if ! is_in_packages_list gdm3 "$@"; then
+        return 0
+    fi
+
+    info "Selecting GDM as the default display manager"
+
+    run_cmd sudo debconf-set-selections <<'EOF'
+gdm3 shared/default-x-display-manager select gdm3
+EOF
+}
+
 setup_1password_repository() {
     local pkg="1password"
     local repo="1password"
@@ -148,6 +160,7 @@ setup_helium_browser_repository() {
 setup_package_repositories() {
     info "Configuring package repositories"
 
+    setup_gdm_display_manager "$@"
     setup_1password_repository "$@"
     setup_chrome_repository "$@"
     setup_helium_browser_repository "$@"
