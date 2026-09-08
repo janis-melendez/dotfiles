@@ -35,68 +35,13 @@ install_external_fzf() {
 }
 
 install_external_lazydocker() {
-    local install_url="https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh"
-
     info "Installing or updating lazydocker"
-
-    # NOTE:
-    # Do not use run_cmd here
-    # Dry-run must be checked before the pipeline so curl does not run
-    if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | bash\n' "$install_url"
-        return 0
-    fi
-
-    curl -fsSL "$install_url" | bash
+    run_cmd go install github.com/jesseduffield/lazydocker@latest
 }
 
 install_external_lazygit() {
-    local api_url="https://api.github.com/repos/jesseduffield/lazygit/releases/latest"
-    local install_dir="/usr/local/bin"
-
-    local version
-    local arch
-    local tarball_url
-
-    if is_command_available lazygit; then
-        info "lazygit already installed"
-        return 0
-    fi
-
-    info "Installing lazygit"
-
-    arch=$(
-        uname -m | sed -e 's/aarch64/arm64/'
-    )
-
-    # NOTE:
-    # Do not use run_cmd here
-    # Dry-run is checked before resolving the latest release so no network lookup runs.
-    if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q\n' "$api_url"
-        printf '+ curl -fsSL -o lazygit.tar.gz %q\n' \
-            "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_<VERSION>_Linux_${arch}.tar.gz"
-        printf '+ tar xf lazygit.tar.gz lazygit\n'
-        printf '+ sudo install lazygit -D -t %q\n' "$install_dir"
-        return 0
-    fi
-
-
-    version="$(
-        curl -fsSL "$api_url" |
-            grep -Po '"tag_name": *"v\K[^"]*'
-    )"
-
-    if [[ -z "$version" ]]; then
-        echo "Failed to resolve lazygit version." >&2
-        return 1
-    fi
-
-    tarball_url="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_${arch}.tar.gz"
-
-    run_cmd curl -fsSL --output lazygit.tar.gz "$tarball_url"
-    run_cmd tar xf lazygit.tar.gz lazygit
-    run_cmd sudo install lazygit -D -t /usr/local/bin/
+    info "Installing or updating lazygit"
+    run_cmd go install github.com/jesseduffield/lazygit@latest
 }
 
 install_external_neovim() {
