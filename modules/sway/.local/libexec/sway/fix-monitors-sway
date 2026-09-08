@@ -82,3 +82,6 @@ swaymsg "workspace $RIGHT_WORKSPACE output $SECONDARY_DISPLAY"
 
 swaymsg "workspace $LEFT_WORKSPACE; layout stacking; move workspace to output $LEFT_OUTPUT"
 swaymsg "workspace $RIGHT_WORKSPACE; layout stacking; move workspace to output $SECONDARY_DISPLAY"
+
+# Finish monitor setup on workspace 1 on the center display.
+swaymsg "workspace number 1; move workspace to output $PRIMARY_DISPLAY"
