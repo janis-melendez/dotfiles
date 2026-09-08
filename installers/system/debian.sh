@@ -149,8 +149,9 @@ setup_helium_browser_repository() {
     local signing_key="https://raw.githubusercontent.com/imputnet/helium-linux/main/pubkey.asc"
 
     if [[ "${DRY_RUN:-false}" == true ]]; then
-        printf '+ curl -fsSL %q | sudo gpg --dearmor -o /usr/share/keyrings' "$signing_key"
-        printf '+ echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/helium.gpg] https://pkg.helium.computer/deb stable main" | sudo tee /etc/apt/sources.list.d/helium.list'
+        printf '+ curl -fsSL %q | sudo gpg --dearmor -o /usr/share/keyrings/helium.gpg\n' "$signing_key"
+        printf '%s\n' '+ echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/helium.gpg] https://pkg.helium.computer/deb stable main" | sudo tee /etc/apt/sources.list.d/helium.list'
+        return 0
     fi
 
     curl -fsSL "$signing_key" | sudo gpg --dearmor -o /usr/share/keyrings/helium.gpg
