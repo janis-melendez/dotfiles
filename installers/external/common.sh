@@ -146,9 +146,10 @@ install_external_autotiling() {
 }
 
 install_external_bibata_cursor_theme() (
+    local version="v2.0.7"
     local theme_name="Bibata-Modern-Ice"
     local archive_name="$theme_name.tar.xz"
-    local download_url="https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/$archive_name"
+    local download_url="https://github.com/ful1e5/Bibata_Cursor/releases/download/$version/$archive_name"
 
     local icons_dir="$HOME/.local/share/icons"
     local install_dir="$icons_dir/$theme_name"
@@ -246,10 +247,11 @@ install_external_dejavu_font() {
 }
 
 install_external_fira_code_font() {
+    local version="v3.5.0"
     local file_name="FiraCode.zip"
     local install_dir="FiraCodeNerdFont"
     local font_family="FiraCode Nerd Font"
-    local download_url="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip"
+    local download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/$version/$file_name"
 
     install_external_font \
         "$file_name" \
@@ -261,6 +263,8 @@ install_external_fira_code_font() {
 install_external_graphite_theme() (
     local gtk_repo_url="https://github.com/vinceliuice/Graphite-gtk-theme.git"
     local kde_repo_url="https://github.com/vinceliuice/Graphite-kde-theme.git"
+    local gtk_version="2026-08-23"
+    local kde_version="2026-08-22"
 
     local gtk_theme_dir="$HOME/.themes/Graphite-Dark-nord"
     local kvantum_theme_dir="$HOME/.config/Kvantum/GraphiteNord"
@@ -282,12 +286,12 @@ install_external_graphite_theme() (
     local gtk_source_dir="$tmp_dir/Graphite-gtk-theme"
     local kde_source_dir="$tmp_dir/Graphite-kde-theme"
 
-    run_cmd git clone --depth 1 \
+    run_cmd git clone --depth 1 --branch "$gtk_version" \
         "$gtk_repo_url" \
         "$gtk_source_dir" ||
         return 1
 
-    run_cmd git clone --depth 1 \
+    run_cmd git clone --depth 1 --branch "$kde_version" \
         "$kde_repo_url" \
         "$kde_source_dir" ||
         return 1
@@ -316,10 +320,11 @@ install_external_graphite_theme() (
 )
 
 install_external_hack_font() {
+    local version="v3.5.0"
     local file_name="Hack.zip"
     local install_dir="HackNerdFont"
     local font_family="Hack Nerd Font Mono"
-    local download_url="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
+    local download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/$version/$file_name"
 
     install_external_font \
         "$file_name" \
@@ -348,10 +353,11 @@ install_external_herdr() {
 }
 
 install_external_julia_mono_font() {
+    local version="v0.63.2"
     local file_name="JuliaMono.zip"
     local install_dir="JuliaMono"
     local font_family="JuliaMono"
-    local download_url="https://github.com/cormullion/juliamono/releases/latest/download/JuliaMono.zip"
+    local download_url="https://github.com/cormullion/juliamono/releases/download/$version/$file_name"
 
     install_external_font \
         "$file_name" \
@@ -362,6 +368,7 @@ install_external_julia_mono_font() {
 
 install_external_nordic_theme() (
     local repo_url="https://github.com/EliverLara/Nordic.git"
+    local version="2.2.0"
 
     local gtk_theme_dir="$HOME/.themes/Nordic"
     local kvantum_theme_dir="$HOME/.config/Kvantum/Nordic"
@@ -383,7 +390,7 @@ install_external_nordic_theme() (
 
     local source_dir="$tmp_dir/Nordic"
 
-    run_cmd git clone --depth 1 "$repo_url" "$source_dir" ||
+    run_cmd git clone --depth 1 --branch "$version" "$repo_url" "$source_dir" ||
         return 1
 
     run_cmd mkdir -p "$gtk_theme_dir" "$kvantum_theme_dir" ||
@@ -465,7 +472,7 @@ install_external_workmux() {
 
     if command -v workmux; then
         warn "workmux already installed"
-        return 1
+        return 0
     fi
 
     info "Installing Workmux"
