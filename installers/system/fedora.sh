@@ -168,5 +168,5 @@ install_system_packages() {
     setup_package_repositories "${packages[@]}"
 
     info "installing system packages"
-    run_cmd sudo dnf install -y "${packages[@]}" --skip-broken
+    run_cmd sudo dnf install -y "${packages[@]}" --skip-unavailable
 }
