@@ -35,11 +35,10 @@ CORE_PACKAGES=(
 #   and project workflow tools
 HEADLESS_PACKAGES=(
     cmake
-    containerd.io
-    docker-buildx-plugin
-    docker-ce
-    docker-ce-cli
-    docker-compose-plugin
+    docker-buildx
+    docker-cli
+    docker-compose
+    moby-engine
     gcc
     gcc-c++
     golang

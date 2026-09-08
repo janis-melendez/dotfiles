@@ -32,11 +32,9 @@ CORE_PACKAGES=(
 HEADLESS_PACKAGES=(
     build-essential
     cmake
-    containerd.io
-    docker-buildx-plugin
-    docker-ce
-    docker-ce-cli
-    docker-compose-plugin
+    docker-buildx
+    docker-compose-v2
+    docker.io
     golang-go
     ipython3
     nodejs
