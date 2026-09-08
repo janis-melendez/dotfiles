@@ -22,16 +22,18 @@ is_command_available(){
 # - For downloaded artifacts, verify checksums when available.
 
 install_external_fzf() {
-    install_dir="$HOME/.fzf"
+    local version="$EXTERNAL_VERSION_FZF"
+    local install_dir="$HOME/.fzf"
 
     if is_command_available fzf; then
         info "fzf already installed"
         return 0
     fi
 
-    info "Installing fzf"
+    info "Installing fzf $version"
 
-    run_cmd git clone --depth 1 https://github.com/junegunn/fzf.git "$install_dir"
+    run_cmd git clone --depth 1 --branch "$version" \
+        https://github.com/junegunn/fzf.git "$install_dir"
     run_cmd "$install_dir/install" --bin
 }
 

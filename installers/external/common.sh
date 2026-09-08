@@ -503,7 +503,7 @@ install_external_yazi() {
     fi
 
     info "Installing Yazi"
-    run_cmd cargo install --force yazi-build --version "$EXTERNAL_VERSION_YAZI"
+    run_cmd cargo install --force yazi-build --version "$EXTERNAL_VERSION_YAZI" --locked
 }
 
 # TODO: create a install_cargo function
@@ -519,7 +519,7 @@ install_external_workmux() {
     fi
 
     info "Installing Workmux"
-    run_cmd cargo install workmux --version "$EXTERNAL_VERSION_WORKMUX"
+    run_cmd cargo install workmux --version "$EXTERNAL_VERSION_WORKMUX" --locked
 }
 
 install_external_zen_browser() {
