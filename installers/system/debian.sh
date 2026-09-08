@@ -158,6 +158,21 @@ setup_helium_browser_repository() {
     echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/helium.gpg] https://pkg.helium.computer/deb stable main" | sudo tee /etc/apt/sources.list.d/helium.list
 }
 
+setup_ghostty_repository() {
+    local pkg="ghostty"
+    local repo="mkasberg/ghostty-ubuntu"
+
+    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
+        return 0
+    fi
+
+    info "Configuring Ghostty repository"
+
+    run_cmd sudo apt-get update
+    run_cmd sudo apt-get install -y software-properties-common
+    run_cmd sudo add-apt-repository -y "ppa:$repo"
+}
+
 setup_package_repositories() {
     info "Configuring package repositories"
 
@@ -165,6 +180,7 @@ setup_package_repositories() {
     setup_1password_repository "$@"
     setup_chrome_repository "$@"
     setup_helium_browser_repository "$@"
+    setup_ghostty_repository "$@"
 }
 
 # --- Public entrypoint ---
