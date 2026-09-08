@@ -2,9 +2,9 @@
     # Display notifications near the active window, not on a fixed monitor.
     follow = keyboard
     origin = top-right
-    offset = (24, 24)
+    offset = 24x24
     width = (360, 460)
-    height = (0, 300)
+    height = 300
     notification_limit = 4
     indicate_hidden = yes
 
