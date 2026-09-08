@@ -94,7 +94,7 @@ install_external_lazygit() {
 
     tarball_url="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_${arch}.tar.gz"
 
-    run_cmd curl -fsSL lazygit.tar.gz "$tarball_url"
+    run_cmd curl -fsSL --output lazygit.tar.gz "$tarball_url"
     run_cmd tar xf lazygit.tar.gz lazygit
     run_cmd sudo install lazygit -D -t /usr/local/bin/
 }
