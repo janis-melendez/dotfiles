@@ -124,36 +124,6 @@ EOF
     run_cmd sudo apt update
 }
 
-setup_docker_repository() {
-    local pkg="docker-ce"
-    local repo="docker"
-
-    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
-        return 0
-    fi
-
-    info "Configuring Docker repository"
-
-    # Add Docker's official GPG key:
-    run_cmd sudo apt update
-    run_cmd sudo apt install ca-certificates curl
-    run_cmd sudo install -m 0755 -d /etc/apt/keyrings
-    run_cmd sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    run_cmd sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-    # Add the repository to Apt sources:
-    run_cmd sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
-    Types: deb
-    URIs: https://download.docker.com/linux/ubuntu
-    Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-    Components: stable
-    Architectures: $(dpkg --print-architecture)
-    Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-
-    run_cmd sudo apt update
-}
-
 setup_helium_browser_repository() {
     local pkg="helium-bin"
     local repo="helium"
@@ -207,7 +177,6 @@ setup_package_repositories() {
 
     setup_1password_repository "$@"
     setup_chrome_repository "$@"
-    setup_docker_repository "$@"
     setup_helium_browser_repository "$@"
     setup_papirus_repository "$@"
 }

@@ -97,19 +97,6 @@ setup_dms_repository() {
     run_cmd sudo dnf copr enable -y avengemedia/dms
 }
 
-setup_docker_repository() {
-    local pkg="docker-ce"
-    local repo="docker"
-
-    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
-        return 0
-    fi
-
-    info "configuring $pkg repository"
-
-    run_cmd sudo dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
-}
-
 setup_helium_browser_repository() {
     local pkg="helium-bin"
     local repo="helium"
@@ -155,7 +142,6 @@ setup_package_repositories() {
     setup_1password_repository "$@"
     setup_chrome_repository "$@"
     setup_dms_repository "$@"
-    setup_docker_repository "$@"
     setup_ghostty_repository "$@"
     setup_helium_browser_repository "$@"
     setup_swayfx_repository "$@"
