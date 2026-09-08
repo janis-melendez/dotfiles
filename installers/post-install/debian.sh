@@ -54,7 +54,11 @@ print_next_steps() {
     section "Next steps"
 
     cat <<EOF
-    - Log out and back in as $USER to use Docker without sudo
+    - Log out and back in to apply Docker group membership and start a new Zsh session
+    - Select your preferred desktop session at the login screen
+    - Install Zoom
+    - Sign in to 1Password, Proton VPN, and Zoom
+    - Import your SSH and GPG keys
 EOF
 }
 
