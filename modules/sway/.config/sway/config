@@ -241,8 +241,8 @@
     # Reload the configuration file
     bindsym $mod+Shift+c reload
 
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    # Exit Sway: Enter confirms logout; Escape cancels.
+    bindsym $mod+Shift+e exec sh -c 'printf "%s\n" "Log out" | rofi -dmenu -no-custom -no-auto-select -selected-row 0 -p "Exit Sway?" -mesg "Enter to log out; Escape to cancel" && swaymsg exit'
 
     # Clipboard history
     bindsym $mod+v exec cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy
