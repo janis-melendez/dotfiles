@@ -99,7 +99,7 @@ install_herdr_plugins() {
 
     for plugin in "${plugins[@]}"; do
         info "Installing Herdr plugin: $plugin"
-        herdr plugin install "$plugin" --yes
+        run_cmd herdr plugin install "$plugin" --yes
     done
 }
 
