@@ -130,9 +130,6 @@ DESKTOP_PACKAGES=(
     wl-clipboard
     xwayland
 
-    # Niri-specific tooling
-    nautilus
-
     # Sway-specific tooling
     slurp
     sway
@@ -175,7 +172,6 @@ EXTERNAL_DESKTOP=(
     autotiling
     dejadup
     dunst
-    niri
     proton_mail
     proton_pass
     zen_browser
@@ -222,7 +218,6 @@ DESKTOP_STOW_MODULES=(
     hexchat
     i3
     picom
-    niri
     rofi
     sway
     theme
