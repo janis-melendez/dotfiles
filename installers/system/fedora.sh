@@ -84,19 +84,6 @@ EOF
     run_cmd sudo dnf makecache
 }
 
-setup_dms_repository() {
-    local pkg="dms"
-    local repo="dms"
-
-    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
-        return 0
-    fi
-
-    info "Configuring $pkg repository"
-
-    run_cmd sudo dnf copr enable -y avengemedia/dms
-}
-
 setup_helium_browser_repository() {
     local pkg="helium-bin"
     local repo="helium"
@@ -123,28 +110,13 @@ setup_ghostty_repository() {
     run_cmd sudo dnf copr enable -y scottames/ghostty
 }
 
-setup_swayfx_repository() {
-    local pkg="swayfx"
-    local repo="swayfx"
-
-    if ! is_in_packages_list "$pkg" "$@" || is_repository_configured "$repo"; then
-        return 0
-    fi
-
-    info "Configuring $pkg repository"
-
-    run_cmd sudo dnf copr enable -y swayfx/swayfx
-}
-
 setup_package_repositories() {
     info "Configuring package repositories"
 
     setup_1password_repository "$@"
     setup_chrome_repository "$@"
-    setup_dms_repository "$@"
     setup_ghostty_repository "$@"
     setup_helium_browser_repository "$@"
-    setup_swayfx_repository "$@"
 }
 
 # --- public entrypoint ---

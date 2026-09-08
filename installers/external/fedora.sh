@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Defines Arch-family external tool installs not handled by pacman
+# Defines Fedora external tool installs not handled by dnf
 
-: "$DOTFILES_DIR:?DOTFILES_DIR must be set before sourcing installers/external/arch.sh"
+: "${DOTFILES_DIR:?DOTFILES_DIR must be set before sourcing installers/external/fedora.sh}"
 
 # --- Sources ---
 source "$DOTFILES_DIR/lib/log.sh"
