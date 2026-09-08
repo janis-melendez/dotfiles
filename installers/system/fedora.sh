@@ -107,7 +107,7 @@ setup_helium_browser_repository() {
 
     info "configuring $pkg repository"
 
-    run_cmd sudo dnf copr enable imput/helium
+    run_cmd sudo dnf copr enable -y imput/helium
 }
 
 setup_ghostty_repository() {
@@ -120,7 +120,7 @@ setup_ghostty_repository() {
 
     info "configuring $pkg repository"
 
-    run_cmd sudo dnf copr enable scottames/ghostty
+    run_cmd sudo dnf copr enable -y scottames/ghostty
 }
 
 setup_swayfx_repository() {
