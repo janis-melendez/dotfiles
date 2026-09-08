@@ -143,12 +143,6 @@ DESKTOP_PACKAGES=(
     xwayland-satellite
     xdg-desktop-portal-gnome
 
-    # TODO: look into dms and repo setup?
-    # Reference: https://niri-wm.github.io/niri/Getting-Started.html
-
-    # Optional Niri desktop shell
-    # dms
-
     # Sway-specific tooling
     sway
     xdg-desktop-portal-wlr
