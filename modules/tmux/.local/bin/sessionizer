@@ -5,4 +5,19 @@ if [[ "${HERDR_ENV:-}" == "1" ]]; then
     exec herdr-sessionizer
 fi
 
-exec tmux-sessionizer
+has_current_tmux_client() {
+    local client_name
+
+    [[ -n "${TMUX:-}" ]] || return 1
+    client_name=$(tmux display-message -p '#{client_name}' 2>/dev/null) || return 1
+    [[ -n "$client_name" ]] || return 1
+    tmux list-clients -F '#{client_name}' 2>/dev/null | grep -qFx "$client_name"
+}
+
+# A terminal can inherit TMUX after its client detaches. tmux-sessionizer uses
+# TMUX to choose switch-client versus attach-session, so clear that stale value.
+if ! has_current_tmux_client; then
+    unset TMUX
+fi
+
+exec tmux-sessionizer "$@"
