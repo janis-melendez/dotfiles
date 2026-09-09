@@ -107,7 +107,7 @@ DESKTOP_PACKAGES=(
 
     # X11 monitor tooling
     xorg-xrandr
-    xwallpaper
+    feh
 
     # Desktop portals
     gnome-keyring

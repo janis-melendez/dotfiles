@@ -126,9 +126,7 @@ DESKTOP_PACKAGES=(
     xclip
     xrandr
     xorg-x11-server-Xorg
-    # TODO: replace xwallpaper with feh.
-    # Will probably have to be done in debian as well.
-    # xwallpaper
+    feh
 
     # Shared Wayland tooling
     # mako

@@ -119,7 +119,7 @@ DESKTOP_PACKAGES=(
     # i3 / X11 tooling
     i3
     picom
-    xwallpaper
+    feh
 
     # Shared Wayland tooling
     # mako
