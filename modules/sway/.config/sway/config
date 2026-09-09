@@ -221,6 +221,9 @@
     # Start a terminal
     bindsym $mod+Return exec $term
 
+    # Lock the screen
+    bindsym $mod+$alt+l exec swaylock -f -c 000000
+
     # Kill focused window
     bindsym $mod+q kill
 
