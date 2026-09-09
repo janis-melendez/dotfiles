@@ -135,6 +135,7 @@ DESKTOP_PACKAGES=(
     swayidle
     waybar
     wl-clipboard
+    wlsunset
     xorg-x11-server-Xwayland
 
     # Niri-specific tooling
@@ -230,4 +231,5 @@ DESKTOP_STOW_MODULES=(
     sway
     theme
     weechat
+    wlsunset
 )

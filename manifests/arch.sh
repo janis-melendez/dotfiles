@@ -135,6 +135,7 @@ DESKTOP_PACKAGES=(
     sway
     swayidle
     swaylock
+    wlsunset
     xdg-desktop-portal-wlr
 )
 
@@ -209,4 +210,5 @@ DESKTOP_STOW_MODULES=(
     sway
     theme
     weechat
+    wlsunset
 )

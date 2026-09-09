@@ -128,6 +128,7 @@ DESKTOP_PACKAGES=(
     swayidle
     waybar
     wl-clipboard
+    wlsunset
     xwayland
 
     # Sway-specific tooling
@@ -221,4 +222,5 @@ DESKTOP_STOW_MODULES=(
     sway
     theme
     weechat
+    wlsunset
 )
