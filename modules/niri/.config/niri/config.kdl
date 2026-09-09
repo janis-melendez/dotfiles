@@ -127,16 +127,15 @@ output "DP-1" {
     // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
     mode "2560x1440@144"
 
-    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    // A smaller UI than the other displays.
+    // Use one logical pixel per physical pixel on every output.
     scale 1
 
     // Transform allows output rotation
     // Valid values: normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
     transform "normal"
 
-    // HDMI-A-1 is about 819 logical pixels wide at scale 1.25.
-    position x=820 y=0
+    // HDMI-A-1 is 1024 logical pixels wide at scale 1.
+    position x=1024 y=0
 }
 
 output "DP-2" {
@@ -144,16 +143,16 @@ output "DP-2" {
     // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
     mode "2560x1440@60"
 
-    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.5
+    // Use one logical pixel per physical pixel on every output.
+    scale 1
 
     // Transform allows output rotation
     // Valid values: normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
     // 270° counter-clockwise is 90° clockwise.
     transform "270"
 
-    // DP-1 is 2560 logical pixels wide at scale 1.
-    position x=3380 y=0
+    // HDMI-A-1 (1024px) + DP-1 (2560px) at scale 1.
+    position x=3584 y=0
 }
 
 output "HDMI-A-1" {
@@ -161,13 +160,13 @@ output "HDMI-A-1" {
     // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
     mode "1024x576@59.967"
 
-    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.25
+    // Use one logical pixel per physical pixel on every output.
+    scale 1
 
     // Mirror the display horizontally, matching fix-monitors-sway.
     transform "flipped-180"
 
-    // This 1024-pixel-wide output is about 819 logical pixels wide at scale 1.25.
+    // This output is 1024 logical pixels wide at scale 1.
     position x=0 y=0
 }
 
