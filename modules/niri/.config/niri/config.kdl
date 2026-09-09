@@ -6,7 +6,6 @@
 // TODO:
 // - configure waybar - make sure workspaces, tray, audio, betery and niri integration are defined
 // - theme swaylock
-// - define timeout actions for lock, display-off, and suspend
 // - configure swayidle
 // - port session utilities:
 //      - clipboard history: wl-paste --watch cliphist store
