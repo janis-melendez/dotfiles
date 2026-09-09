@@ -23,7 +23,8 @@ install_external_lazydocker() {
 }
 
 install_external_lazygit() {
-    install_go_package github.com/jesseduffield/lazygit "$EXTERNAL_VERSION_LAZYGIT"
+    local version="$EXTERNAL_VERSION_LAZYGIT"
+    install_go_package github.com/jesseduffield/lazygit "$version"
 }
 
 install_external_proton_mail() (
