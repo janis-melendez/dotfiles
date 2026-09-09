@@ -512,6 +512,9 @@
     # Starts clipboard history watcher
     exec wl-paste --watch cliphist store
 
+    # Adjust color temperature on the configured day/night schedule
+    exec ~/.local/bin/sunset.sh on
+
     # Automatically chooses horizontal or vertical splits based on window dimensions
     exec ~/.local/bin/autotiling
 

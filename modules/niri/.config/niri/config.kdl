@@ -10,7 +10,6 @@
 // - configure swayidle
 // - port session utilities:
 //      - clipboard history: wl-paste --watch cliphist store
-//      - night light: wlsunset
 //      - networkmanager/bluetooth tray behavior, if waybar is invoking the tray
 //      - any "focus or launch" scripts and app-specific rules I rely on in i3/sway
 // - fix or remove bindings that call unavailable tools (like playerctl and brightnessctl)
@@ -87,6 +86,9 @@ cursor {
 
 // Reapply the Rodecaster input volume after PipeWire exposes its sources.
 spawn-at-startup "sh" "-c" "exec \"$HOME/.local/bin/set-rodecaster-input-volume\""
+
+// Adjust color temperature on the configured day/night schedule.
+spawn-at-startup "sh" "-c" "exec \"$HOME/.local/bin/sunset.sh\" on"
 
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
