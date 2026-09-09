@@ -200,6 +200,10 @@
     # Lock the screen
     bindsym $mod+$alt+l exec --no-startup-id i3lock
 
+    # Power controls
+    bindsym $mod+$alt+p exec --no-startup-id poweroff
+    bindsym $mod+$alt+r exec --no-startup-id reboot
+
     # kill focused window
     bindsym $mod+q kill
 

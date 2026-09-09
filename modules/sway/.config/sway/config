@@ -224,6 +224,10 @@
     # Lock the screen
     bindsym $mod+$alt+l exec swaylock -f -c 000000
 
+    # Power controls
+    bindsym $mod+$alt+p exec --no-startup-id poweroff
+    bindsym $mod+$alt+r exec --no-startup-id reboot
+
     # Kill focused window
     bindsym $mod+q kill
 
@@ -457,7 +461,7 @@
         bindsym $mod+Shift+p exec --no-startup-id poweroff
 
         # reboot
-        bindsym $mod+Shift+r exec --no-startup-id poweroff
+        bindsym $mod+Shift+r exec --no-startup-id reboot
 
         # Return to default mode
         bindsym Return mode "default"
