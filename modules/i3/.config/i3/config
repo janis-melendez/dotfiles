@@ -197,6 +197,9 @@
     # start a terminal
     bindsym $mod+Return exec i3-sensible-terminal
 
+    # Lock the screen
+    bindsym $mod+$alt+l exec --no-startup-id i3lock
+
     # kill focused window
     bindsym $mod+q kill
 
