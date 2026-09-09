@@ -85,6 +85,9 @@ cursor {
     xcursor-size 28
 }
 
+// Reapply the Rodecaster input volume after PipeWire exposes its sources.
+spawn-at-startup "sh" "-c" "exec \"$HOME/.local/bin/set-rodecaster-input-volume\""
+
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
