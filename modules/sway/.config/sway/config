@@ -489,7 +489,9 @@
 #
     # Wallpaper
     exec swaybg \
-        -i "$HOME/.local/share/wallpapers/dark-mountain-landscape.jpg"
+        -o "*" \
+        -i "$HOME/.local/share/wallpapers/dark-mountain-landscape.jpg" \
+        -m fill
 #
 # Services:
 #
