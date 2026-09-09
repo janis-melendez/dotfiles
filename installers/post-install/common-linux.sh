@@ -85,6 +85,49 @@ configure_niri_services() {
     done
 }
 
+configure_zoom_xcb_launcher() {
+    local source_file="$DOTFILES_DIR/installers/config/applications/Zoom.desktop"
+    local target_file="$HOME/.local/share/applications/Zoom.desktop"
+    local scheme
+    local schemes=(
+        zoommtg
+        zoomus
+        tel
+        callto
+        zoomphonecall
+        zoomphonesms
+        zoomcontactcentercall
+    )
+
+    if [[ "${PROFILE:-desktop}" != "desktop" ]]; then
+        info "Skipping Zoom launcher override: desktop profile is not selected"
+        return 0
+    fi
+
+    if [[ ! -f "$source_file" ]]; then
+        warn "Zoom launcher template not found: $source_file"
+        return 1
+    fi
+
+    info "Installing Zoom XCB launcher override"
+    run_cmd install -Dm644 "$source_file" "$target_file" || return 1
+
+    if ! command -v xdg-mime >/dev/null 2>&1; then
+        warn "xdg-mime is unavailable; Zoom URI handlers were not registered"
+        return 0
+    fi
+
+    info "Registering Zoom URI handlers"
+    for scheme in "${schemes[@]}"; do
+        run_cmd xdg-mime default Zoom.desktop "x-scheme-handler/$scheme" || return 1
+    done
+    run_cmd xdg-mime default Zoom.desktop application/x-zoom || return 1
+
+    if command -v update-desktop-database >/dev/null 2>&1; then
+        run_cmd update-desktop-database "$HOME/.local/share/applications"
+    fi
+}
+
 configure_browser_extensions() {
     local policies_dir="$HOME/dotfiles/installers/config/browsers/policies"
     local firefox_policy="$policies_dir/firefox.json"
@@ -196,4 +239,5 @@ run_common_linux_post_install() {
     configure_browser_extensions
     configure_gnome_theme
     configure_niri_services
+    configure_zoom_xcb_launcher
 }
