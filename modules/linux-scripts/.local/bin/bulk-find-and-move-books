@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC1091
+source "$HOME/.local/bin/lib/prompt_user.sh"
+source "$HOME/.local/bin/lib/display_info_message.sh"
+source "$HOME/.local/bin/lib/display_error_message.sh"
+
+BOOKS_DIR="$HOME/Books"
+DOWNLOADS_DIR="$HOME/Downloads"
+
+### Helper functions
+#
+function find_and_move_books() {
+    local name=("$@")
+    local name_glob=""
+
+    # Build glob
+    for word in "${name[@]}"; do
+        name_glob+="*$word"
+    done
+    name_glob+="*"
+
+    # Replace `spaces` with `*`
+    name_glob="${name_glob// /*}"
+
+    # Search for matching books
+    local search_results
+    mapfile search_results < <(fd --glob "$name_glob" "$DOWNLOADS_DIR" )
+
+    if [[ "${#search_results[@]}" == 0 ]]; then
+        notify-send -e "No files found for \"${name[*]}\"."
+        return 0;
+    fi
+
+    # Move found books to `Books` folder
+    fd --glob "$name_glob" "$DOWNLOADS_DIR" -x mv -t "$BOOKS_DIR" "{}"
+    notify-send -e "Moved ${#search_results[@]} files."
+}
+
+### Main Program
+#
+ while BOOK_NAME=$(prompt_user "Enter a book name (Esc to exit):"); do
+     if [[ -z "${BOOK_NAME//[[:space:]]/}" ]]; then
+         display_error_message "Please enter a book name."
+         continue
+     fi
+
+     find_and_move_books "$BOOK_NAME"
+done
+
+notify-send -e "Exiting script"
