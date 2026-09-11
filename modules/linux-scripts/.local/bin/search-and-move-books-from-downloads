@@ -25,7 +25,7 @@ function find_and_move_books() {
 
     # Search for matching books
     local search_results
-    mapfile search_results < <(fd --glob "$name_glob" "$DOWNLOADS_DIR" )
+    mapfile search_results < <(find "$DOWNLOADS_DIR" -type f -iname "$name_glob" )
 
     if [[ "${#search_results[@]}" == 0 ]]; then
         notify-send -e "No files found for \"${name[*]}\"."
@@ -33,7 +33,7 @@ function find_and_move_books() {
     fi
 
     # Move found books to `Books` folder
-    fd --glob "$name_glob" "$DOWNLOADS_DIR" -x mv -t "$BOOKS_DIR" "{}"
+    find "$DOWNLOADS_DIR" -type f -iname "$name_glob" -exec mv -t "$BOOKS_DIR" "{}" +
     notify-send -e "Moved ${#search_results[@]} files."
 }
 
