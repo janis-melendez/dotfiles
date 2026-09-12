@@ -32,7 +32,7 @@ local mason_server_names = {
 
     -- Build and project files
     "autotools_ls",
-    "cmake",
+    "neocmake",
 
     -- Configuration formats
     "taplo",
