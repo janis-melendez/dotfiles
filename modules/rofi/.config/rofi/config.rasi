@@ -27,6 +27,11 @@ configuration {
     lines: 15;
     columns: 1;
 
+    // Rofi normally follows the pointer, which can be on an unfocused workspace.
+    // Target the monitor containing the focused window instead of Rofi's
+    // focused-monitor heuristic, which is unreliable under XWayland.
+    monitor: "-4";
+
     // Keybindings
     // kb-primary-paste: "Control+V,Shift+Insert";
     // kb-secondary-paste: "Control+v,Insert";
