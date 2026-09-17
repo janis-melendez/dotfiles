@@ -115,6 +115,7 @@ DESKTOP_PACKAGES=(
 
     # Shared Wayland tooling
     # mako
+    fuzzel
     waybar
     wl-clipboard
     xorg-xwayland
@@ -203,6 +204,7 @@ HEADLESS_STOW_MODULES=(
 # dotfile modules for GUI/workstation setup
 DESKTOP_STOW_MODULES=(
     dunst
+    fuzzel
     ghostty
     hexchat
     rofi

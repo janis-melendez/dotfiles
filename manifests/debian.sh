@@ -123,6 +123,7 @@ DESKTOP_PACKAGES=(
 
     # Shared Wayland tooling
     # mako
+    fuzzel
     swaybg
     swaylock
     swayidle
@@ -214,6 +215,7 @@ HEADLESS_STOW_MODULES=(
 # dotfile modules for GUI/workstation setup
 DESKTOP_STOW_MODULES=(
     dunst
+    fuzzel
     ghostty
     hexchat
     i3
