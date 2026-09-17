@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Launch fuzzel on the output Sway currently has focused.
+
+set -eu
+
+output=$(swaymsg -t get_outputs -r | jq -er '.[] | select(.focused).name')
+exec fuzzel --output "$output" "$@"

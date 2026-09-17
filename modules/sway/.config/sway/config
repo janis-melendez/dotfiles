@@ -20,11 +20,9 @@
     # Terminal emulator
     set $term ghostty
 
-    # Application launcher
-    # Note: pass the final command to swaymsg so that the resulting window can be opened
-    # on the original workspace that the command was run on.
-    # set $menu dmenu_path | wmenu | xargs swaymsg exec --
-    set $menu rofi -show drun | xargs swaymsg exec --
+    # Application launcher. The wrapper asks Sway for the focused output before
+    # opening the Wayland-native launcher there.
+    set $menu ~/.local/bin/sway-focused-launcher
 
     # Application lancher - window search
     set $window_search rofi -window drun | xargs swaymsg exec --
@@ -247,8 +245,8 @@
     # Reload the configuration file
     bindsym $mod+Shift+c reload
 
-    # Exit Sway: Enter confirms logout; Escape cancels.
-    bindsym $mod+Shift+e exec sh -c 'printf "%s\n" "Log out" | rofi -dmenu -no-custom -no-auto-select -selected-row 0 -p "Exit Sway?" -mesg "Enter to log out; Escape to cancel" && swaymsg exit'
+    # Exit Sway: select "Log out" to confirm; Escape cancels.
+    bindsym $mod+Shift+e exec sh -c 'choice=$(printf "%s\n" "Log out" | ~/.local/bin/sway-focused-launcher --dmenu --prompt "Exit Sway? ") && [ "$choice" = "Log out" ] && swaymsg exit'
 
     # Clipboard history
     bindsym $mod+v exec cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy
