@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# Ask for confirmation before ending the current i3 session.
+
+set -eu
+
+choice=$(printf '%s\n' 'Log out' | rofi -dmenu -no-custom -no-auto-select \
+    -selected-row 0 -p 'Exit i3?' -mesg 'Enter to log out; Escape to cancel')
+
+[ "$choice" = 'Log out' ] && i3-msg exit

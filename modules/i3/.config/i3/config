@@ -274,7 +274,7 @@
     # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
     bindsym $mod+Shift+r restart
     # Exit i3: Enter confirms logout; Escape cancels.
-    bindsym $mod+Shift+e exec sh -c 'printf "%s\n" "Log out" | rofi -dmenu -no-custom -no-auto-select -selected-row 0 -p "Exit i3?" -mesg "Enter to log out; Escape to cancel" && i3-msg exit'
+    bindsym $mod+Shift+e exec --no-startup-id ~/.local/bin/i3-logout
 
     # ScratchPad applications
     # Make the currently focused window a scratchpad
