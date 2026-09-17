@@ -87,8 +87,6 @@
     set $qprompt_cmd "flatpak run com.cuperino.qprompt"
     set $qprompt_class "qprompt"
 
-    set $snapchat_cmd ""
-    set $snapchat_title "Snapchat"
 
     set $steam_cmd "steam"
     set $steam_class "steam"
