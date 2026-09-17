@@ -11,10 +11,6 @@
     # Font used for the window titles and bar {} below
     set $font pango:DejaVu Sans
 
-    # Scripts
-    set $focus_or_open_by_class ~/.local/bin/focus-or-open-by-window-class
-    set $focus_or_open_by_title ~/.local/bin/focus-or-open-by-window-title
-
     # Monitor aliases
     set $left_monitor "HDMI-A-0"
     set $center_monitor "DisplayPort-0"
@@ -83,7 +79,6 @@
 
     set $qprompt_cmd "flatpak run com.cuperino.qprompt"
     set $qprompt_class "qprompt"
-
 
     set $steam_cmd "steam"
     set $steam_class "steam"
@@ -331,57 +326,15 @@
 #
 # Applications:
 #
-    # Focus or Open Applications
-    bindsym $mod+F1 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $zen_browser_cmd \
-                $zen_browser_class
-    bindsym $mod+F2 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $helium_cmd \
-                $helium_class
-    bindsym $mod+F5 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $proton_mail_cmd \
-                $proton_mail_class, \
-        workspace $ws5
-    bindsym $mod+F7 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $lotion_cmd \
-                $lotion_class, \
-        workspace $ws7
-    bindsym $mod+F8 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $calibre_cmd \
-                $calibre_class, \
-                workspace $ws_right
-    bindsym $mod+F10 \
-        exec --no-startup-id \
-            $focus_or_open_by_title \
-                $yazi_cmd \
-                $yazi_title
-    bindsym $mod+Shift+F10 \
-        exec --no-startup-id \
-            $focus_or_open_by_title \
-                $vifm_cmd \
-                $vifm_title
-    bindsym $mod+F11 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $1password_cmd \
-                $1password_class, \
-                workspace $ws_right
-    bindsym $mod+F12 \
-        exec --no-startup-id \
-            $focus_or_open_by_class \
-                $proton_pass_cmd \
-                $proton_pass_class, \
-                workspace $ws_right
+    # Open applications
+    bindsym $mod+F1 exec --no-startup-id $zen_browser_cmd
+    bindsym $mod+F2 exec --no-startup-id $helium_cmd
+    bindsym $mod+F5 exec --no-startup-id $proton_mail_cmd, workspace $ws5
+    bindsym $mod+F7 exec --no-startup-id $lotion_cmd, workspace $ws7
+    bindsym $mod+F8 exec --no-startup-id $calibre_cmd, workspace $ws_right
+    bindsym $mod+F10 exec --no-startup-id $yazi_cmd
+    bindsym $mod+F11 exec --no-startup-id $1password_cmd, workspace $ws_right
+    bindsym $mod+F12 exec --no-startup-id $proton_pass_cmd, workspace $ws_right
 
 ### Window behavior
 #
