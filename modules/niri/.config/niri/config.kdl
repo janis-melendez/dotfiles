@@ -428,7 +428,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: Ghostty" { spawn "ghostty"; }
-    Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi"; }
+    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn-sh "exec \"$HOME/.local/bin/niri-focused-launcher\""; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Super+Alt+P hotkey-overlay-title="Power Off" { spawn "poweroff"; }
     Super+Alt+R hotkey-overlay-title="Reboot" { spawn "reboot"; }

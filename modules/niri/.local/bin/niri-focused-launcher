@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Launch fuzzel on the output Niri currently has focused.
+
+set -eu
+
+output=$(niri msg --json focused-output | jq -er '.name')
+exec fuzzel --output "$output" "$@"
