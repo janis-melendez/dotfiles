@@ -42,9 +42,6 @@
     set $1password_cmd "1password"
     set $1password_class "1password"
 
-    set $brave_browser_cmd "brave-browser"
-    set $brave_browser_class "Brave-browser"
-
     set $calculator_cmd "gnome-calculator"
     set $calculator_class "Gnome-calculator"
 
@@ -104,9 +101,6 @@
     set $yazi_cmd "ghostty --title=yazi -e yazi"
     set $yazi_class "ghostty"
     set $yazi_title "yazi"
-
-    set $youtube_cmd ""
-    set $youtube_class "WebApp-Youtube2592"
 
     set $zen_browser_cmd "flatpak run app.zen_browser.zen"
     set $zen_browser_class "zen"
@@ -425,7 +419,6 @@
     assign [class=$lotion_class] $ws_right
     assign [class=$proton_mail_class] $ws_right
     assign [class=$proton_pass_class] $ws_right
-    assign [class=$youtube_class] $ws_right
     assign [class="Pavucontrol"] $ws_right
 
     # Numbered workspaces (center_monitor)
