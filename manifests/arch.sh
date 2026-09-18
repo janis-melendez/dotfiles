@@ -61,6 +61,7 @@ DESKTOP_PACKAGES=(
     # General desktop
     flatpak
     ghostty
+    gtk3
     weechat
     zenity
 

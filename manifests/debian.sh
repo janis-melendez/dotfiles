@@ -58,6 +58,7 @@ DESKTOP_PACKAGES=(
     flatpak
     gdm3
     ghostty
+    libgtk-3-bin
     google-chrome-stable
     helium-bin
     hexchat

@@ -62,6 +62,7 @@ DESKTOP_PACKAGES=(
     1password
     flatpak
     ghostty
+    gtk3
     google-chrome-stable
     helium-bin
     hexchat
