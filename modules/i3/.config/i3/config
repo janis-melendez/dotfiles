@@ -38,6 +38,8 @@
     set $1password_cmd "1password"
     set $1password_class "1password"
 
+    set $battle_net_cmd "gtk-launch Battle.net"
+
     set $calculator_cmd "gnome-calculator"
     set $calculator_class "Gnome-calculator"
 
@@ -49,9 +51,6 @@
 
     set $helium_cmd "helium"
     set $helium_class "helium"
-
-    set $gnome_parted_cmd "gnome-parted"
-    set $gnome_parted_class "Gnome-parted"
 
     set $ghostty_terminal_cmd "ghostty"
     set $ghostty_terminal_class "ghostty"
@@ -83,8 +82,7 @@
     set $steam_cmd "steam"
     set $steam_class "steam"
 
-    set $steam_app_cmd ""
-    set $steam_app_class "^steam_app_[0-9]+$"
+    set $steam_game_class "^steam_app_[0-9]+$"
 
     set $teleprompter_cmd "flatpak run io.github.nokse22.teleprompter"
     set $teleprompter_class "teleprompter"
@@ -329,6 +327,8 @@
     # Open applications
     bindsym $mod+F1 exec --no-startup-id $zen_browser_cmd
     bindsym $mod+F2 exec --no-startup-id $helium_cmd
+    bindsym $mod+F3 exec --no-startup-id $steam_cmd, workspace number $ws10
+    bindsym $mod+F4 exec --no-startup-id $battle_net_cmd, workspace number $ws10
     bindsym $mod+F5 exec --no-startup-id $proton_mail_cmd, workspace $ws5
     bindsym $mod+F7 exec --no-startup-id $lotion_cmd, workspace $ws7
     bindsym $mod+F8 exec --no-startup-id $calibre_cmd, workspace $ws_right
@@ -378,8 +378,9 @@
     assign [class=$librew/lf_class] workspace number $ws1
     assign [class=$zen_browser_class] workspace number $ws1
 
+    # Steam itself and every Steam/Proton game open on workspace 10.
     assign [class=$steam_class] workspace number $ws10
-    assign [class=$steam_app_class] workspace number $ws10
+    assign [class=$steam_game_class] workspace number $ws10
 #
 # Per-window rules
 #
