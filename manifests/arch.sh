@@ -206,6 +206,7 @@ HEADLESS_STOW_MODULES=(
 DESKTOP_STOW_MODULES=(
     dunst
     fuzzel
+    gaming
     ghostty
     hexchat
     rofi
