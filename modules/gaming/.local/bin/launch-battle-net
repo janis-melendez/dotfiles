@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+BATTLE_NET_LAUNCHER="$(
+    find "$HOME/.steam" "$HOME/.local/share/Steam" \
+        -type f \
+        -path '*/Battle.net/Battle.net Launcher.exe' \
+        -printf '%T@ %p\n' 2>/dev/null \
+        | sort -nr \
+        | head -n 1 \
+        | cut -d ' ' -f 2-
+)"
+
+if [[ -z "$BATTLE_NET_LAUNCHER" ]]; then
+    printf 'Battle.net: launcher not found in a Steam library.\n' >&2
+    exit 1
+fi
+
+# Derive the Proton prefix and Steam installation from the located launcher.
+COMPAT_DATA="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$BATTLE_NET_LAUNCHER")")")")")"
+STEAM_ROOT="${COMPAT_DATA%/steamapps/compatdata/*}"
+APP_ID="${COMPAT_DATA##*/}"
+BATTLE_NET_LAUNCHER_WIN="C:\\${BATTLE_NET_LAUNCHER#"$COMPAT_DATA/pfx/drive_c/"}"
+BATTLE_NET_LAUNCHER_WIN="${BATTLE_NET_LAUNCHER_WIN//\//\\}"
+
+COMPAT_TOOL="$(
+    awk '
+        $1 == "\"CompatToolMapping\"" { in_compat_mapping = 1; next }
+        in_compat_mapping && $1 == "\"'"$APP_ID"'\"" { want_name = 1; next }
+        want_name && $1 == "\"name\"" {
+            gsub(/\"/, "", $2)
+            print $2
+            exit
+        }
+    ' "$STEAM_ROOT/config/config.vdf"
+)"
+PROTON="$STEAM_ROOT/compatibilitytools.d/$COMPAT_TOOL/proton"
+
+if [[ -z "$COMPAT_TOOL" || ! -x "$PROTON" ]]; then
+    printf 'Battle.net: Proton launcher not found: %s\n' "$PROTON" >&2
+    exit 1
+fi
+
+# Start Steam independently of this launcher; Proton can continue immediately.
+setsid -f steam -silent >/dev/null 2>&1
+
+exec env \
+    STEAM_COMPAT_CLIENT_INSTALL_PATH="$STEAM_ROOT" \
+    STEAM_COMPAT_DATA_PATH="$COMPAT_DATA" \
+    STEAM_COMPAT_APP_ID="$APP_ID" \
+    SteamAppId="$APP_ID" \
+    "$PROTON" waitforexitandrun "$BATTLE_NET_LAUNCHER_WIN"

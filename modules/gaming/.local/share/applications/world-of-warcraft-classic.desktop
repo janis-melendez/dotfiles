@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=World of Warcraft Classic
+GenericName=Massively multiplayer online role-playing game
+Comment=Launch World of Warcraft Classic through Steam and Battle.net
+Exec=/home/residentgoose/.local/bin/launch-wow-classic
+Terminal=false
+Type=Application
+Categories=Game;
+Keywords=WoW;WoWC;World of Warcraft;Classic;Battle.net;
+StartupWMClass=GxWindowClass
