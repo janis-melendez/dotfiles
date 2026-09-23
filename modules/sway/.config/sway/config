@@ -44,21 +44,21 @@
     set $ws_right right
 
 
-    # Application Command and Window Class Variables
-    #   * Note: find window class via wmctrl
+    # Application Command and Window Identifier Variables
+    #   * Inspect Wayland app IDs with: swaymsg -t get_tree
     set $1password_cmd "1password"
-    set $1password_class "(?i).*(1password|onepassword).*"
+    set $1password_app_id "(?i).*(1password|onepassword).*"
 
     set $battle_net_cmd "gtk-launch Battle.net"
 
     set $calculator_cmd "gnome-calculator"
-    set $calculator_class "(?i).*calculator.*"
+    set $calculator_app_id "(?i).*calculator.*"
 
     set $calibre_cmd "calibre"
-    set $calibre_class "(?i).*calibre.*"
+    set $calibre_app_id "(?i).*calibre.*"
 
     set $discord_cmd "flatpak run com.discordapp.Discord"
-    set $discord_class "(?i).*discord.*"
+    set $discord_app_id "(?i).*discord.*"
 
     set $helium_cmd "helium"
     set $helium_class "(?i).*helium.*"
@@ -67,39 +67,40 @@
     set $ghostty_terminal_class "(?i).*ghostty.*"
 
     set $librewolf_cmd "librewolf"
-    set $librewolf_class "(?i).*librewolf.*"
+    set $librewolf_app_id "(?i).*librewolf.*"
 
     set $lotion_cmd "lotion"
-    set $lotion_class "(?i).*lotion.*"
+    set $lotion_app_id "(?i).*lotion.*"
 
     set $kde_connect_sms_cmd "kdeconnect-sms"
-    set $kde_connect_sms_class "(?i).*kdeconnect\\.sms.*"
+    set $kde_connect_sms_app_id "(?i).*kdeconnect\\.sms.*"
 
     set $pavucontrol_class "(?i).*pavucontrol.*"
+    set $pavucontrol_app_id "(?i).*pavucontrol.*"
 
     set $pika_backup_cmd "flatpak run org.gnome.World.PikaBackup"
     set $pika_backup_class "(?i).*pika.*backup.*"
 
     set $proton_mail_cmd "proton-mail"
-    set $proton_mail_class "(?i).*proton.*mail.*"
+    set $proton_mail_app_id "(?i).*proton.*mail.*"
 
     set $proton_pass_cmd "proton-pass"
-    set $proton_pass_class "(?i).*proton.*pass.*"
+    set $proton_pass_app_id "(?i).*proton.*pass.*"
 
     set $proton_vpn_cmd "protonvpn-app"
-    set $proton_vpn_class "(?i).*proton.*vpn.*"
+    set $proton_vpn_app_id "(?i).*proton.*vpn.*"
 
     set $qprompt_cmd "flatpak run com.cuperino.qprompt"
-    set $qprompt_class "(?i).*qprompt.*"
+    set $qprompt_app_id "(?i).*qprompt.*"
 
 
     set $steam_cmd "steam"
-    set $steam_class "(?i).*steam.*"
+    set $steam_app_id "(?i).*steam.*"
 
-    set $steam_game_class "(?i).*steam_app_[0-9]+.*"
+    set $steam_game_app_id "(?i).*steam_app_[0-9]+.*"
 
     set $teleprompter_cmd "flatpak run io.github.nokse22.teleprompter"
-    set $teleprompter_class "(?i).*teleprompter.*"
+    set $teleprompter_app_id "(?i).*teleprompter.*"
 
     set $vifm_cmd "ghostty --title=vifm -e vifm"
     set $vifm_class "(?i).*ghostty.*"
@@ -110,10 +111,10 @@
     set $yazi_title "yazi"
 
     set $zen_browser_cmd "flatpak run app.zen_browser.zen"
-    set $zen_browser_class "(?i).*zen.*"
+    set $zen_browser_app_id "(?i).*zen.*"
 
     set $zoom_cmd "zoom"
-    set $zoom_class "(?i).*zoom.*"
+    set $zoom_app_id "(?i).*zoom.*"
 
 ### Output configuration
 #
@@ -398,29 +399,29 @@
 # Workspace assignments:
 #
     # workspace_left (left_monitor)
-    assign [app_id=$calculator_class] $ws_left
-    assign [app_id=$kde_connect_sms_class] $ws_left
-    assign [app_id=$proton_vpn_class] $ws_left
-    assign [app_id=$teleprompter_class] $ws_left
-    assign [app_id=$qprompt_class] $ws_left
-    assign [app_id=$zoom_class] $ws_left
+    assign [app_id=$calculator_app_id] $ws_left
+    assign [app_id=$kde_connect_sms_app_id] $ws_left
+    assign [app_id=$proton_vpn_app_id] $ws_left
+    assign [app_id=$teleprompter_app_id] $ws_left
+    assign [app_id=$qprompt_app_id] $ws_left
+    assign [app_id=$zoom_app_id] $ws_left
 
     # workspace_right (right_monitor)
-    assign [app_id=$1password_class] $ws_right
-    assign [app_id=$calibre_class] $ws_right
-    assign [app_id=$discord_class] $ws_right
-    assign [app_id=$lotion_class] $ws_right
-    assign [app_id=$pavucontrol_class] $ws_right
-    assign [app_id=$proton_mail_class] $ws_right
-    assign [app_id=$proton_pass_class] $ws_right
+    assign [app_id=$1password_app_id] $ws_right
+    assign [app_id=$calibre_app_id] $ws_right
+    assign [app_id=$discord_app_id] $ws_right
+    assign [app_id=$lotion_app_id] $ws_right
+    assign [app_id=$pavucontrol_app_id] $ws_right
+    assign [app_id=$proton_mail_app_id] $ws_right
+    assign [app_id=$proton_pass_app_id] $ws_right
 
     # numbered workspaces (center_monitor)
-    assign [app_id=$librewolf_class] workspace number $ws1
-    assign [app_id=$zen_browser_class] workspace number $ws1
+    assign [app_id=$librewolf_app_id] workspace number $ws1
+    assign [app_id=$zen_browser_app_id] workspace number $ws1
 
     # Steam itself and every Steam/Proton game open on workspace 10.
-    assign [app_id=$steam_class] workspace number $ws10
-    assign [app_id=$steam_game_class] workspace number $ws10
+    assign [app_id=$steam_app_id] workspace number $ws10
+    assign [app_id=$steam_game_app_id] workspace number $ws10
 #
 # Per-window rules:
 #
@@ -433,7 +434,9 @@
 
     # Application-specific rules
     for_window [class=$pika_backup_class] floating enable
-    for_window [class="Pavucontrol"] floating enable
+    for_window [class=$pavucontrol_class] floating enable
+    for_window [app_id="(?i).*zenity.*"] floating enable
+    for_window [class="(?i).*zenity.*"] floating enable
 
 ### Modes
 #
