@@ -61,10 +61,10 @@
     set $discord_app_id "(?i).*discord.*"
 
     set $helium_cmd "helium"
-    set $helium_class "(?i).*helium.*"
+    set $helium_app_id "(?i).*helium.*"
 
     set $ghostty_terminal_cmd "ghostty"
-    set $ghostty_terminal_class "(?i).*ghostty.*"
+    set $ghostty_terminal_app_id "(?i).*ghostty.*"
 
     set $librewolf_cmd "librewolf"
     set $librewolf_app_id "(?i).*librewolf.*"
@@ -75,11 +75,10 @@
     set $kde_connect_sms_cmd "kdeconnect-sms"
     set $kde_connect_sms_app_id "(?i).*kdeconnect\\.sms.*"
 
-    set $pavucontrol_class "(?i).*pavucontrol.*"
     set $pavucontrol_app_id "(?i).*pavucontrol.*"
 
     set $pika_backup_cmd "flatpak run org.gnome.World.PikaBackup"
-    set $pika_backup_class "(?i).*pika.*backup.*"
+    set $pika_backup_app_id "(?i).*pika.*backup.*"
 
     set $proton_mail_cmd "proton-mail"
     set $proton_mail_app_id "(?i).*proton.*mail.*"
@@ -103,11 +102,11 @@
     set $teleprompter_app_id "(?i).*teleprompter.*"
 
     set $vifm_cmd "ghostty --title=vifm -e vifm"
-    set $vifm_class "(?i).*ghostty.*"
+    set $vifm_app_id "(?i).*ghostty.*"
     set $vifm_title "vifm"
 
     set $yazi_cmd "ghostty --title=yazi -e yazi"
-    set $yazi_class "(?i).*ghostty.*"
+    set $yazi_app_id "(?i).*ghostty.*"
     set $yazi_title "yazi"
 
     set $zen_browser_cmd "flatpak run app.zen_browser.zen"
@@ -426,17 +425,16 @@
 # Per-window rules:
 #
     # General applications rules
-    for_window [class=".*"] border normal 3
+    for_window [app_id=".*"] border normal 3
     for_window [window_role="pop-up"] floating enable
     for_window [window_role="bubble"] floating enable
     for_window [window_role="dialog"] floating enable
     for_window [window_type="dialog"] floating enable
 
     # Application-specific rules
-    for_window [class=$pika_backup_class] floating enable
-    for_window [class=$pavucontrol_class] floating enable
+    for_window [app_id=$pika_backup_app_id] floating enable
+    for_window [app_id=$pavucontrol_app_id] floating enable
     for_window [app_id="(?i).*zenity.*"] floating enable
-    for_window [class="(?i).*zenity.*"] floating enable
 
 ### Modes
 #
