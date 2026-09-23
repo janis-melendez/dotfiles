@@ -460,20 +460,6 @@
     }
     bindsym $mod+r mode "resize"
 
-    mode "settings" {
-        # poweroff
-        bindsym $mod+Shift+p exec --no-startup-id poweroff
-
-        # reboot
-        bindsym $mod+Shift+r exec --no-startup-id reboot
-
-        # Return to default mode
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+Shift+c mode "default"
-    }
-    bindsym $mod+Shift+s mode "settings"
-
 ### Session services
 #
 # Environment:
