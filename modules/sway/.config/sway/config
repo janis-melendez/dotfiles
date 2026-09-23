@@ -248,6 +248,7 @@
     # Clipboard history
     bindsym $mod+v exec cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy
 
+    # TODO: replace with a fuzzel popup that shows scripts available to run
     # Run search and move books script
     bindsym $mod+b exec --no-startup-id ~/.local/bin/search-and-move-books-from-downloads
 #
