@@ -252,7 +252,7 @@
     bindsym $mod+a focus parent
 
     # focus the child container
-    #bindsym $mod+d focus child
+    bindsym $mod+Shift+a focus child
 
     # reload the configuration file
     bindsym $mod+Shift+c reload
@@ -423,27 +423,6 @@
     }
 
     bindsym $mod+r mode "resize"
-
-    # Settings mode
-    mode "settings" {
-        # poweroff
-        bindsym $mod+Shift+p exec --no-startup-id poweroff
-
-        # reboot
-        bindsym $mod+Shift+r exec --no-startup-id reboot
-
-        # turn on Redshift night-light mode
-        bindsym $mod+n exec --no-startup-id ~/.local/bin/redshift-on
-
-        bindsym $mod+Shift+n exec --no-startup-id ~/.local/bin/redshift-off
-
-    	# back to normal: Enter or Escape or $mod+s
-    	bindsym Return mode "default"
-    	bindsym Escape mode "default"
-    	bindsym $mod+Shift+c mode "default"
-    }
-
-    bindsym $mod+Shift+s mode "settings"
 
 ### Session services
 #
