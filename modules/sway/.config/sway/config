@@ -384,6 +384,9 @@
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
+    #  Move focus to the child container
+    bindsym $mod+shift+a focus child
 #
 # Scratchpad:
 #
