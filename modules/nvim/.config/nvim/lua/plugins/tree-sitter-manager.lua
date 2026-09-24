@@ -2,7 +2,7 @@
 
 return {
     "romus204/tree-sitter-manager.nvim",
-    -- TODO: enable tree-sitter-manager once nvim-treesitter is removed
+    -- NOTE: Currently disabled. Kept as a backup of nvim-treesitter.
     enabled = false,
     lazy = false,
     opts = {
