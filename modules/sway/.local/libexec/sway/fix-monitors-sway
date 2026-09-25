@@ -77,6 +77,9 @@ for workspace in "${NUMBERED_WORKSPACES[@]}"; do
     swaymsg "workspace $workspace output $PRIMARY_DISPLAY"
 done
 
+# Workspace 10 is the only numbered workspace that starts stacked.
+swaymsg "workspace number 10; layout stacking; move workspace to output $PRIMARY_DISPLAY"
+
 swaymsg "workspace $LEFT_WORKSPACE output $LEFT_OUTPUT"
 swaymsg "workspace $RIGHT_WORKSPACE output $SECONDARY_DISPLAY"
 

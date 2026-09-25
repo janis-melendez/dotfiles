@@ -51,6 +51,8 @@
 
     set $battle_net_cmd "gtk-launch Battle.net"
 
+    set $betterbird_cmd "flatpak run eu.betterbird.Betterbird"
+
     set $calculator_cmd "gnome-calculator"
     set $calculator_app_id "(?i).*calculator.*"
 
@@ -92,6 +94,8 @@
     set $qprompt_cmd "flatpak run com.cuperino.qprompt"
     set $qprompt_app_id "(?i).*qprompt.*"
 
+    set $snapchat_cmd ""
+    set $snapchat_app_id "(?i).*snapchat.*"
 
     set $steam_cmd "steam"
     set $steam_app_id "(?i).*steam.*"
@@ -340,6 +344,10 @@
     bindsym $mod+F5 \
         exec --no-startup-id $proton_mail_cmd,
             workspace $ws5
+    # BetterBird
+    bindsym $mod+F5 \
+        exec --no-startup-id $betterbird_cmd,
+            workspace $ws5
     # Notion
     bindsym $mod+F7 \
         exec --no-startup-id $lotion_cmd,
@@ -420,6 +428,7 @@
     assign [app_id=$pavucontrol_app_id] $ws_right
     assign [app_id=$proton_mail_app_id] $ws_right
     assign [app_id=$proton_pass_app_id] $ws_right
+    assign [app_id=$snapchat_app_id] $ws_right
 
     # numbered workspaces (center_monitor)
     assign [app_id=$librewolf_app_id] workspace number $ws1

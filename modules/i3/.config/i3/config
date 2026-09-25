@@ -282,6 +282,9 @@
     workspace $ws9 output $center_monitor
     workspace $ws10 output $center_monitor
 
+    # Workspace 10 is the only numbered workspace that starts stacked.
+    exec --no-startup-id i3-msg 'workspace number $ws10; layout stacked'
+
     # Switch to workspace
     bindsym $mod+1 workspace number $ws1
     bindsym $mod+2 workspace number $ws2
@@ -318,7 +321,7 @@
     bindsym $mod+Shift+grave move container to workspace $ws_left
     bindsym $mod+Shift+equal move container to workspace $ws_right
 
-    # Workspace left and right start stacked, but I can override it later
+    # Side workspaces start stacked, but I can override them later.
     exec --no-startup-id i3-msg 'workspace $ws_left; layout stacked'
     exec --no-startup-id i3-msg 'workspace $ws_right; layout stacked'
 #
