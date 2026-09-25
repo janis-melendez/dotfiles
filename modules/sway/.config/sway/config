@@ -346,7 +346,7 @@
         exec --no-startup-id $proton_mail_cmd,
             workspace $ws5
     # BetterBird
-    bindsym $mod+F5 \
+    bindsym $mod+F6 \
         exec --no-startup-id $betterbird_cmd,
             workspace $ws5
     # Notion
