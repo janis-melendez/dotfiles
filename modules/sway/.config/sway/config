@@ -52,6 +52,7 @@
     set $battle_net_cmd "gtk-launch Battle.net"
 
     set $betterbird_cmd "flatpak run eu.betterbird.Betterbird"
+    set $betterbird_app_id "(?i).*betterbird.*"
 
     set $calculator_cmd "gnome-calculator"
     set $calculator_app_id "(?i).*calculator.*"
@@ -422,6 +423,7 @@
 
     # workspace_right (right_monitor)
     assign [app_id=$1password_app_id] $ws_right
+    assign [app_id=$betterbird_app_id] $ws_right
     assign [app_id=$calibre_app_id] $ws_right
     assign [app_id=$discord_app_id] $ws_right
     assign [app_id=$lotion_app_id] $ws_right
