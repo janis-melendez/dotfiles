@@ -1,5 +1,5 @@
 confirm-close-surface=false
 # If font lookup fails with FontconfigNoMatch, clear ~/.cache/fontconfig.
-font-family = FiraCode Nerd Font
+# font-family = FiraCode Nerd Font
 font-size = 13
 theme = Nord
