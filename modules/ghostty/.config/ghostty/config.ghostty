@@ -1,7 +1,5 @@
 confirm-close-surface=false
-# Ghostty fails to resolve Fontconfig-managed fonts on this system
-# (error.FontconfigNoMatch), so enabling the FiraCode setting prevents Ghostty
-# from creating a terminal surface. Re-enable only after verifying font lookup works.
-# font-family = FiraCode Nerd Font
+# If font lookup fails with FontconfigNoMatch, clear ~/.cache/fontconfig.
+font-family = FiraCode Nerd Font
 font-size = 13
 theme = Nord
