@@ -168,6 +168,10 @@ install_external_autotiling() {
     run_cmd pip install autotiling
 }
 
+install_external_brave() {
+    install_flathub_package com.brave.Browser
+}
+
 install_external_bibata_cursor_theme() (
     local version="$EXTERNAL_VERSION_BIBATA_CURSOR"
     local theme_name="Bibata-Modern-Ice"
