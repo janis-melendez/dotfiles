@@ -19,6 +19,33 @@ load_common_external_installers() {
     source "$common_file"
 }
 
+is_supported_linux_os() {
+    case "$1" in
+        arch | debian | fedora)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+load_common_linux_external_installers() {
+    local os="$1"
+    local common_linux_file="$DOTFILES_DIR/installers/external/common-linux.sh"
+
+    is_supported_linux_os "$os" || return 0
+
+    info "Loading common Linux external installers: $common_linux_file"
+
+    if [[ ! -f "$common_linux_file" ]]; then
+        error "Missing common Linux external installers file"
+        return 1
+    fi
+
+    source "$common_linux_file"
+}
+
 load_os_external_installers() {
     local os="$1"
     local external_file="$DOTFILES_DIR/installers/external/$os.sh"
@@ -35,6 +62,7 @@ load_external_installers() {
     local os="$1"
 
     load_common_external_installers || return 1
+    load_common_linux_external_installers "$os" || return 1
     load_os_external_installers "$os" || return 1
 }
 
