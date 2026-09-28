@@ -182,6 +182,7 @@ EXTERNAL_HEADLESS=(
 
 EXTERNAL_DESKTOP=(
     autotiling
+    brave
     dejadup
     proton_mail
     proton_pass

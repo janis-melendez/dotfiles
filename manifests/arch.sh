@@ -166,6 +166,7 @@ EXTERNAL_HEADLESS=(
 
 EXTERNAL_DESKTOP=(
     autotiling
+    brave
     dejadup
 
     # Fonts:
