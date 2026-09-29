@@ -484,6 +484,8 @@
         # Enable all outputs and restore the configured monitor layout.
         bindsym $mod+F10 exec sh -c 'swaymsg "output * enable" && ~/.local/libexec/sway/fix-monitors-sway'
 
+        # Return to default mode
+        bindsym Return mode "default"
         bindsym Escape mode "default"
     }
     bindsym $mod+m mode "monitors"
