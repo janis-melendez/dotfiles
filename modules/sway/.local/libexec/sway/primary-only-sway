@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+PRIMARY_DISPLAY="DP-1"
+
+# Keep the primary output available throughout the switch.
+swaymsg output "$PRIMARY_DISPLAY" enable
+
+swaymsg -r -t get_outputs |
+    jq -r --arg primary "$PRIMARY_DISPLAY" '.[] | select(.name != $primary) | .name' |
+    while IFS= read -r output; do
+        swaymsg output "$output" disable
+    done
