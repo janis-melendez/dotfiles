@@ -480,9 +480,9 @@
 
     mode "monitors" {
         # Keep DP-1 active and disable every other output.
-        bindsym $mod+Shift+F9 exec ~/.local/libexec/sway/primary-only-sway
+        bindsym $mod+F9 exec ~/.local/libexec/sway/primary-only-sway
         # Enable all outputs and restore the configured monitor layout.
-        bindsym $mod+Shift+F10 exec sh -c 'swaymsg "output * enable" && ~/.local/libexec/sway/fix-monitors-sway'
+        bindsym $mod+F10 exec sh -c 'swaymsg "output * enable" && ~/.local/libexec/sway/fix-monitors-sway'
 
         bindsym Escape mode "default"
     }
