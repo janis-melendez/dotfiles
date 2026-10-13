@@ -453,6 +453,7 @@
     for_window [app_id=$pika_backup_app_id] floating enable
     for_window [app_id=$pavucontrol_app_id] floating enable
     for_window [app_id="(?i).*zenity.*"] floating enable
+    for_window [app_id="Zoom" title="^zoom$"] floating enable, floating_minimum_size 250 x 400
 
 ### Modes
 #
